@@ -8,11 +8,15 @@ export default function DynamicForm({ extractedTexts }) {
   const [selectedOption, setSelectedOption] = useState("");
   const [formData, setFormData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [aiSummary, setAiSummary] = useState("");
+  const [error, setError] = useState("");
 
   const handleOptionChange = (e) => {
     const option = e.target.value;
     setSelectedOption(option);
-    setFormData({}); // Reset form data when option changes
+    setFormData({});
+    setAiSummary(""); // Clear summary when option changes
+    setError(""); // Clear error when option changes
   };
 
   const handleInputChange = (e) => {
@@ -26,6 +30,8 @@ export default function DynamicForm({ extractedTexts }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
+    setAiSummary("");
 
     try {
       const response = await submitFormData(
@@ -34,11 +40,11 @@ export default function DynamicForm({ extractedTexts }) {
         selectedOption
       );
 
-      // Show success message
-      alert(response.message);
+      // Set the AI Answer from response
+      setAiSummary(response.data.summary);
       console.log("API Response:", response);
     } catch (error) {
-      alert("Failed to submit form. Please try again.");
+      setError("Failed to submit form. Please try again.");
       console.error("Submission error:", error);
     } finally {
       setIsSubmitting(false);
@@ -169,6 +175,61 @@ export default function DynamicForm({ extractedTexts }) {
             {isSubmitting ? "Submitting..." : "Submit Form"}
           </button>
         </form>
+      )}
+
+      {/* Error Message */}
+      {error && (
+        <div
+          style={{
+            marginTop: "16px",
+            padding: "12px",
+            backgroundColor: "#fef2f2",
+            border: "1px solid #fecaca",
+            borderRadius: "6px",
+            color: "#dc2626",
+            fontSize: "14px",
+          }}
+        >
+          {error}
+        </div>
+      )}
+
+      {/* AI Answer Display */}
+      {aiSummary && (
+        <div
+          style={{
+            marginTop: "16px",
+          }}
+        >
+          <h4
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              color: "#1a1a1a",
+              marginBottom: "8px",
+            }}
+          >
+            AI Answer
+          </h4>
+          <textarea
+            readOnly
+            value={aiSummary}
+            style={{
+              width: "100%",
+              minHeight: "100px",
+              padding: "12px",
+              fontSize: "14px",
+              fontFamily:
+                "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              backgroundColor: "#f0fdf4",
+              border: "1px solid #bbf7d0",
+              borderRadius: "6px",
+              resize: "vertical",
+              color: "#166534",
+              lineHeight: "1.5",
+            }}
+          />
+        </div>
       )}
     </div>
   );
