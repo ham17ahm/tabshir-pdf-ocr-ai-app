@@ -4,14 +4,14 @@ export default function PdfImagePreview({ images }) {
   if (images.length === 0) return null;
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    <div className="mt-5">
       {images.map((img, index) => (
-        <div key={index} style={{ marginBottom: "20px" }}>
-          <h3>Page {index + 1}</h3>
+        <div key={index} className="mb-5">
+          <h3 className="text-lg font-semibold mb-2">Page {index + 1}</h3>
           <img
             src={img}
             alt={`Page ${index + 1}`}
-            style={{ maxWidth: "100%", border: "1px solid #ccc" }}
+            className="max-w-full border border-gray-300 rounded"
           />
         </div>
       ))}

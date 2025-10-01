@@ -15,8 +15,8 @@ export default function DynamicForm({ extractedTexts }) {
     const option = e.target.value;
     setSelectedOption(option);
     setFormData({});
-    setAiSummary(""); // Clear summary when option changes
-    setError(""); // Clear error when option changes
+    setAiSummary("");
+    setError("");
   };
 
   const handleInputChange = (e) => {
@@ -40,7 +40,6 @@ export default function DynamicForm({ extractedTexts }) {
         selectedOption
       );
 
-      // Set the AI Answer from response
       setAiSummary(response.data.summary);
       console.log("API Response:", response);
     } catch (error) {
@@ -58,23 +57,8 @@ export default function DynamicForm({ extractedTexts }) {
   const selectedTemplate = selectedOption ? formTemplates[selectedOption] : [];
 
   return (
-    <div
-      style={{
-        marginTop: "24px",
-        padding: "24px",
-        backgroundColor: "#ffffff",
-        borderRadius: "8px",
-        border: "1px solid #e0e0e0",
-      }}
-    >
-      <h2
-        style={{
-          fontSize: "18px",
-          fontWeight: "600",
-          color: "#1a1a1a",
-          marginBottom: "16px",
-        }}
-      >
+    <div className="mt-6 p-6 bg-white rounded-lg border border-gray-300">
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">
         Form Selection
       </h2>
 
@@ -82,15 +66,7 @@ export default function DynamicForm({ extractedTexts }) {
       <select
         value={selectedOption}
         onChange={handleOptionChange}
-        style={{
-          width: "100%",
-          padding: "10px",
-          fontSize: "14px",
-          border: "1px solid #d1d5db",
-          borderRadius: "6px",
-          marginBottom: "20px",
-          backgroundColor: "#ffffff",
-        }}
+        className="w-full p-2.5 text-sm border border-gray-300 rounded-md mb-5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
         <option value="">Select an option...</option>
         {options.map((option) => (
@@ -103,31 +79,14 @@ export default function DynamicForm({ extractedTexts }) {
       {/* Dynamic Form Fields */}
       {selectedTemplate.length > 0 && (
         <form onSubmit={handleSubmit}>
-          <h3
-            style={{
-              fontSize: "16px",
-              fontWeight: "600",
-              color: "#1a1a1a",
-              marginBottom: "16px",
-            }}
-          >
+          <h3 className="text-base font-semibold text-gray-900 mb-4">
             {selectedOption} Form
           </h3>
           {selectedTemplate.map((field) => (
-            <div key={field.name} style={{ marginBottom: "16px" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  color: "#374151",
-                  marginBottom: "6px",
-                }}
-              >
+            <div key={field.name} className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 {field.label}
-                {field.required && (
-                  <span style={{ color: "#ef4444", marginLeft: "4px" }}>*</span>
-                )}
+                {field.required && <span className="text-red-500 ml-1">*</span>}
               </label>
               <input
                 type={field.type}
@@ -136,14 +95,7 @@ export default function DynamicForm({ extractedTexts }) {
                 required={field.required}
                 value={formData[field.name] || ""}
                 onChange={handleInputChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  fontSize: "14px",
-                  border: "1px solid #d1d5db",
-                  borderRadius: "6px",
-                  backgroundColor: "#ffffff",
-                }}
+                className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           ))}
@@ -152,25 +104,15 @@ export default function DynamicForm({ extractedTexts }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            style={{
-              width: "100%",
-              padding: "12px 24px",
-              backgroundColor: isSubmitting ? "#9ca3af" : "#2563eb",
-              color: "#ffffff",
-              border: "none",
-              borderRadius: "8px",
-              fontSize: "14px",
-              fontWeight: "600",
-              cursor: isSubmitting ? "not-allowed" : "pointer",
-              marginTop: "8px",
-              transition: "background-color 0.2s",
-            }}
-            onMouseOver={(e) => {
-              if (!isSubmitting) e.target.style.backgroundColor = "#1d4ed8";
-            }}
-            onMouseOut={(e) => {
-              if (!isSubmitting) e.target.style.backgroundColor = "#2563eb";
-            }}
+            className={`
+              w-full px-6 py-3 border-none rounded-lg text-sm font-semibold mt-2
+              transition-colors duration-200
+              ${
+                isSubmitting
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+              }
+            `}
           >
             {isSubmitting ? "Submitting..." : "Submit Form"}
           </button>
@@ -179,55 +121,21 @@ export default function DynamicForm({ extractedTexts }) {
 
       {/* Error Message */}
       {error && (
-        <div
-          style={{
-            marginTop: "16px",
-            padding: "12px",
-            backgroundColor: "#fef2f2",
-            border: "1px solid #fecaca",
-            borderRadius: "6px",
-            color: "#dc2626",
-            fontSize: "14px",
-          }}
-        >
+        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
           {error}
         </div>
       )}
 
       {/* AI Answer Display */}
       {aiSummary && (
-        <div
-          style={{
-            marginTop: "16px",
-          }}
-        >
-          <h4
-            style={{
-              fontSize: "14px",
-              fontWeight: "600",
-              color: "#1a1a1a",
-              marginBottom: "8px",
-            }}
-          >
+        <div className="mt-4">
+          <h4 className="text-sm font-semibold text-gray-900 mb-2">
             AI Answer
           </h4>
           <textarea
             readOnly
             value={aiSummary}
-            style={{
-              width: "100%",
-              minHeight: "100px",
-              padding: "12px",
-              fontSize: "14px",
-              fontFamily:
-                "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-              backgroundColor: "#f0fdf4",
-              border: "1px solid #bbf7d0",
-              borderRadius: "6px",
-              resize: "vertical",
-              color: "#166534",
-              lineHeight: "1.5",
-            }}
+            className="w-full min-h-[100px] p-3 text-sm bg-green-50 border border-green-200 rounded-md resize-y text-green-800 leading-relaxed"
           />
         </div>
       )}
