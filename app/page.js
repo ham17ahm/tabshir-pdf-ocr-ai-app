@@ -30,7 +30,7 @@ export default function TestPdfPage() {
       {/* Left Column */}
       <div className="w-1/2 p-8 border-r border-gray-300 overflow-y-auto bg-white">
         <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-          PDF to Image Converter
+          Wakalat Tabshir Correspondence Assistance System
         </h1>
 
         {/* Buttons Row */}
