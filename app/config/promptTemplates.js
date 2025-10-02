@@ -12,17 +12,6 @@ export const promptTemplates = {
 
     sections: [
       {
-        name: "formType",
-        label: "Form Type",
-        format: (data) => `Form Type: ${data.formType}`,
-      },
-      {
-        name: "language",
-        label: "Language",
-        format: (data) =>
-          `Language: ${data.formData.language || "Not specified"}`,
-      },
-      {
         name: "formData",
         label: "Form Data",
         format: (data) => `Form Data:\n${formatFormData(data.formData)}`,
@@ -42,17 +31,6 @@ export const promptTemplates = {
 
     sections: [
       {
-        name: "formType",
-        label: "Form Type",
-        format: (data) => `Form Type: ${data.formType}`,
-      },
-      {
-        name: "language",
-        label: "Language",
-        format: (data) =>
-          `Language: ${data.formData.language || "Not specified"}`,
-      },
-      {
         name: "formData",
         label: "Form Data",
         format: (data) => `Form Data:\n${formatFormData(data.formData)}`,
@@ -71,17 +49,6 @@ export const promptTemplates = {
       "Summarize the following form submission and extracted PDF text in one sentence",
 
     sections: [
-      {
-        name: "formType",
-        label: "Form Type",
-        format: (data) => `Form Type: ${data.formType}`,
-      },
-      {
-        name: "language",
-        label: "Language",
-        format: (data) =>
-          `Language: ${data.formData.language || "Not specified"}`,
-      },
       {
         name: "formData",
         label: "Form Data",
