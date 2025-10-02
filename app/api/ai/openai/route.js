@@ -1,5 +1,8 @@
+// app/api/ai/openai/route.js
+
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { buildPrompt } from "@/app/services/ai/promptBuilder";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -7,21 +10,14 @@ const openai = new OpenAI({
 
 export async function POST(request) {
   try {
-    const { formData, extractedTexts, formType, prompt, config } =
-      await request.json();
+    const { formData, extractedTexts, formType, config } = await request.json();
 
-    // Construct the message content
-    const userMessage = `
-${prompt}
-
-Form Type: ${formType}
-
-Form Data:
-${JSON.stringify(formData, null, 2)}
-
-Extracted PDF Text:
-${extractedTexts.join("\n\n")}
-    `.trim();
+    // BUILD THE PROMPT USING THE TEMPLATE SYSTEM
+    const userMessage = buildPrompt(formType, {
+      formData,
+      extractedTexts,
+      formType,
+    });
 
     // Call OpenAI API
     const completion = await openai.chat.completions.create({

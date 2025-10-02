@@ -1,7 +1,4 @@
-/**
- * Gemini service implementation
- * Handles communication with Google Gemini API
- */
+// app/services/ai/providers/geminiService.js
 
 const DEFAULT_CONFIG = {
   model: "gemini-1.5-flash",
@@ -12,7 +9,8 @@ const DEFAULT_CONFIG = {
 export const geminiService = {
   providerName: "Gemini",
 
-  async summarize(formData, extractedTexts, formType, prompt, config = {}) {
+  async summarize(formData, extractedTexts, formType, config = {}) {
+    // ❌ REMOVED: prompt parameter
     const finalConfig = { ...DEFAULT_CONFIG, ...config };
 
     try {
@@ -25,7 +23,7 @@ export const geminiService = {
           formData,
           extractedTexts,
           formType,
-          prompt,
+          // ❌ REMOVED: prompt,
           config: finalConfig,
         }),
       });

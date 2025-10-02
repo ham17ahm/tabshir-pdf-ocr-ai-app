@@ -1,7 +1,4 @@
-/**
- * OpenAI service implementation
- * Handles communication with OpenAI API
- */
+// app/services/ai/providers/openaiService.js
 
 const DEFAULT_CONFIG = {
   model: "gpt-4o-mini",
@@ -12,7 +9,8 @@ const DEFAULT_CONFIG = {
 export const openaiService = {
   providerName: "OpenAI",
 
-  async summarize(formData, extractedTexts, formType, prompt, config = {}) {
+  async summarize(formData, extractedTexts, formType, config = {}) {
+    // ❌ REMOVED: prompt parameter
     const finalConfig = { ...DEFAULT_CONFIG, ...config };
 
     try {
@@ -25,7 +23,7 @@ export const openaiService = {
           formData,
           extractedTexts,
           formType,
-          prompt,
+          // ❌ REMOVED: prompt,
           config: finalConfig,
         }),
       });

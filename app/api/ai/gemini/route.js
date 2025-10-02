@@ -1,25 +1,20 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { buildPrompt } from "@/app/services/ai/promptBuilder";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export async function POST(request) {
   try {
-    const { formData, extractedTexts, formType, prompt, config } =
-      await request.json();
+    const { formData, extractedTexts, formType, config } = await request.json();
+    // ❌ REMOVED: prompt parameter
 
-    // Construct the message content
-    const userMessage = `
-${prompt}
-
-Form Type: ${formType}
-
-Form Data:
-${JSON.stringify(formData, null, 2)}
-
-Extracted PDF Text:
-${extractedTexts.join("\n\n")}
-    `.trim();
+    // BUILD THE PROMPT USING THE TEMPLATE SYSTEM
+    const userMessage = buildPrompt(formType, {
+      formData,
+      extractedTexts,
+      formType,
+    });
 
     // Get the Gemini model
     const model = genAI.getGenerativeModel({ model: config.model });
