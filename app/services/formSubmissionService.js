@@ -18,7 +18,6 @@ export const submitFormData = async (formData, extractedTexts, formType) => {
       formData,
       extractedTexts,
       formType,
-      // ❌ REMOVED: aiConfig.prompt,
       aiConfig.config
     );
 

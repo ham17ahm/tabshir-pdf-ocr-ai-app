@@ -5,12 +5,29 @@
  * Define how prompts are constructed for each form type
  */
 
+import { getExamples } from "@/app/utils/examplesLoader";
+
 export const promptTemplates = {
   General: {
-    instruction:
-      "Summarize the following form submission and extracted PDF text in one sentence",
+    instruction: `Below you will find: 1) Examples of Desired Output 2) Form Data in JSON 3) Extracted PDF Text.
+    Your task is to write a formal letter in response to the raw letter provided in the “Extracted PDF Text” section, in light of the examples following the information in the Form Data. The Form Data consists of the “language” which is the output language of the final letter. The “context” is for you to comprehend how and what to write the letter.
+`,
 
     sections: [
+      {
+        name: "examples",
+        label: "Examples of Desired Output",
+        format: (data) => {
+          const examples = getExamples(data.formType);
+          if (examples.length === 0) return "";
+
+          const examplesText = examples
+            .map((ex, index) => `Example ${index + 1}:\n${ex.example}`)
+            .join("\n\n");
+
+          return `Examples of Desired Output:\n${examplesText}`;
+        },
+      },
       {
         name: "formData",
         label: "Form Data",
@@ -26,10 +43,25 @@ export const promptTemplates = {
   },
 
   Instructions: {
-    instruction:
-      "Summarize the following form submission and extracted PDF text in one sentence",
+    instruction: `Below you will find: 1) Examples of Desired Output 2) Form Data in JSON 3) Extracted PDF Text.
+    Your task is to write a formal letter in response to the raw letter provided in the “Extracted PDF Text” section, in light of the examples following the information in the Form Data. The Form Data consists of the “language” which is the output language of the final letter. The “context” is for you to comprehend how and what to write the letter. The “instructions” are the verbatim guidance that needs to be included in the final letter.
+`,
 
     sections: [
+      {
+        name: "examples",
+        label: "Examples of Desired Output",
+        format: (data) => {
+          const examples = getExamples(data.formType);
+          if (examples.length === 0) return "";
+
+          const examplesText = examples
+            .map((ex, index) => `Example ${index + 1}:\n${ex.example}`)
+            .join("\n\n");
+
+          return `Examples of Desired Output:\n${examplesText}`;
+        },
+      },
       {
         name: "formData",
         label: "Form Data",
@@ -45,10 +77,25 @@ export const promptTemplates = {
   },
 
   "Tabshir Instructions": {
-    instruction:
-      "Summarize the following form submission and extracted PDF text in one sentence",
+    instruction: `Below you will find: 1) Examples of Desired Output 2) Form Data in JSON 3) Extracted PDF Text.
+    Your task is to write a formal letter in response to the raw letter provided in the “Extracted PDF Text” section, in light of the examples following the information in the Form Data. The Form Data consists of the “language” which is the output language of the final letter. The “context” is for you to comprehend how and what to write the letter. The “tabshir instructions” are the verbatim guidance that needs to be included in the final letter.
+`,
 
     sections: [
+      {
+        name: "examples",
+        label: "Examples of Desired Output",
+        format: (data) => {
+          const examples = getExamples(data.formType);
+          if (examples.length === 0) return "";
+
+          const examplesText = examples
+            .map((ex, index) => `Example ${index + 1}:\n${ex.example}`)
+            .join("\n\n");
+
+          return `Examples of Desired Output:\n${examplesText}`;
+        },
+      },
       {
         name: "formData",
         label: "Form Data",

@@ -3,14 +3,13 @@
 const DEFAULT_CONFIG = {
   model: "gpt-4o-mini",
   temperature: 0.7,
-  maxTokens: 150,
+  maxTokens: 500,
 };
 
 export const openaiService = {
   providerName: "OpenAI",
 
   async summarize(formData, extractedTexts, formType, config = {}) {
-    // ❌ REMOVED: prompt parameter
     const finalConfig = { ...DEFAULT_CONFIG, ...config };
 
     try {
@@ -23,7 +22,6 @@ export const openaiService = {
           formData,
           extractedTexts,
           formType,
-          // ❌ REMOVED: prompt,
           config: finalConfig,
         }),
       });

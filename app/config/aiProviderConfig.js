@@ -8,7 +8,7 @@ export const formAIConfig = {
     config: {
       model: "gpt-4o-mini",
       temperature: 0.7,
-      maxTokens: 150,
+      maxTokens: 500,
     },
   },
   Instructions: {
@@ -16,7 +16,7 @@ export const formAIConfig = {
     config: {
       model: "models/gemini-flash-lite-latest",
       temperature: 0.7,
-      maxTokens: 150,
+      maxTokens: 500,
     },
   },
   "Tabshir Instructions": {
@@ -24,7 +24,7 @@ export const formAIConfig = {
     config: {
       model: "gpt-4o-mini",
       temperature: 0.7,
-      maxTokens: 150,
+      maxTokens: 500,
     },
   },
 };

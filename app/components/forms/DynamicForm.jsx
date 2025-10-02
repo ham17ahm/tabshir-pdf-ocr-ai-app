@@ -163,7 +163,7 @@ export default function DynamicForm({ extractedTexts }) {
           <textarea
             readOnly
             value={aiSummary}
-            className="w-full min-h-[100px] p-3 text-sm bg-green-50 border border-green-200 rounded-md resize-y text-green-800 leading-relaxed"
+            className="w-full min-h-[250px] p-3 text-sm bg-green-50 border border-green-200 rounded-md resize-y text-green-800 leading-relaxed"
           />
         </div>
       )}
