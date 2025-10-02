@@ -6,9 +6,9 @@ export const formAIConfig = {
   General: {
     provider: AI_PROVIDERS.OPENAI,
     config: {
-      model: "gpt-4o-mini",
-      temperature: 0.7,
-      maxTokens: 500,
+      model: "gpt-5-mini",
+      temperature: 1,
+      max_completion_tokens: 500,
     },
   },
   Instructions: {
@@ -22,9 +22,9 @@ export const formAIConfig = {
   "Tabshir Instructions": {
     provider: AI_PROVIDERS.OPENAI,
     config: {
-      model: "gpt-4o-mini",
-      temperature: 0.7,
-      maxTokens: 500,
+      model: "gpt-5-mini",
+      temperature: 1,
+      max_completion_tokens: 500,
     },
   },
 };
