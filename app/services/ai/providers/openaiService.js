@@ -1,17 +1,9 @@
 // app/services/ai/providers/openaiService.js
 
-const DEFAULT_CONFIG = {
-  model: "gpt-4o-mini",
-  temperature: 0.7,
-  maxTokens: 500,
-};
-
 export const openaiService = {
   providerName: "OpenAI",
 
-  async summarize(formData, extractedTexts, formType, config = {}) {
-    const finalConfig = { ...DEFAULT_CONFIG, ...config };
-
+  async summarize(formData, extractedTexts, formType, config) {
     try {
       const response = await fetch("/api/ai/openai", {
         method: "POST",
@@ -22,7 +14,7 @@ export const openaiService = {
           formData,
           extractedTexts,
           formType,
-          config: finalConfig,
+          config: config,
         }),
       });
 

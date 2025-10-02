@@ -1,17 +1,9 @@
 // app/services/ai/providers/geminiService.js
 
-const DEFAULT_CONFIG = {
-  model: "gemini-1.5-flash",
-  temperature: 0.7,
-  maxTokens: 500,
-};
-
 export const geminiService = {
   providerName: "Gemini",
 
-  async summarize(formData, extractedTexts, formType, config = {}) {
-    const finalConfig = { ...DEFAULT_CONFIG, ...config };
-
+  async summarize(formData, extractedTexts, formType, config) {
     try {
       const response = await fetch("/api/ai/gemini", {
         method: "POST",
@@ -22,7 +14,7 @@ export const geminiService = {
           formData,
           extractedTexts,
           formType,
-          config: finalConfig,
+          config: config,
         }),
       });
 
