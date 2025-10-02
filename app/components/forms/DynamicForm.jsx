@@ -88,15 +88,43 @@ export default function DynamicForm({ extractedTexts }) {
                 {field.label}
                 {field.required && <span className="text-red-500 ml-1">*</span>}
               </label>
-              <input
-                type={field.type}
-                name={field.name}
-                placeholder={field.placeholder}
-                required={field.required}
-                value={formData[field.name] || ""}
-                onChange={handleInputChange}
-                className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+
+              {field.type === "textarea" ? (
+                <textarea
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  required={field.required}
+                  value={formData[field.name] || ""}
+                  onChange={handleInputChange}
+                  rows={4}
+                  className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+                />
+              ) : field.type === "select" ? (
+                <select
+                  name={field.name}
+                  required={field.required}
+                  value={formData[field.name] || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">{field.placeholder}</option>
+                  {field.options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  required={field.required}
+                  value={formData[field.name] || ""}
+                  onChange={handleInputChange}
+                  className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              )}
             </div>
           ))}
 
