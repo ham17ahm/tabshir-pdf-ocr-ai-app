@@ -1,52 +1,47 @@
 // app/services/ai/promptBuilder.js
 
+import { promptTemplates } from "@/app/config/promptTemplates";
+import { isValidFormType } from "@/app/config/formTypes/registryUtils";
+
 /**
  * Prompt builder service
- * Constructs prompts based on templates
+ * Constructs prompts based on templates from registry
  */
-
-import { promptTemplates } from "@/app/config/promptTemplates";
-
 export class PromptBuilder {
   constructor(formType) {
-    this.template = promptTemplates[formType];
-
-    if (!this.template) {
-      throw new Error(`No prompt template found for form type: ${formType}`);
+    if (!isValidFormType(formType)) {
+      throw new Error(`Invalid form type: ${formType}`);
     }
+
+    this.template = promptTemplates[formType];
+    this.formType = formType;
   }
 
   /**
    * Build the complete prompt
+   * @param {Object} data - Contains formData, extractedTexts, formType
+   * @returns {string} Complete formatted prompt
    */
   build(data) {
-    const { formData, extractedTexts, formType } = data;
+    const { formData, extractedTexts } = data;
 
     // Start with the instruction
     const parts = [this.template.instruction];
 
-    // Add each section in order
+    // Add each section
     this.template.sections.forEach((section) => {
       const sectionData = {
         formData,
         extractedTexts,
-        formType,
+        formType: this.formType,
       };
 
-      // Use custom formatter if available
-      let formattedSection;
-      if (
-        section.name === "formData" &&
-        this.template.customFormatters?.formData
-      ) {
-        formattedSection = `${
-          section.label
-        }:\n${this.template.customFormatters.formData(formData)}`;
-      } else {
-        formattedSection = section.format(sectionData);
-      }
+      const formattedSection = section.format(sectionData);
 
-      parts.push(formattedSection);
+      // Only add non-empty sections
+      if (formattedSection) {
+        parts.push(formattedSection);
+      }
     });
 
     // Join all parts with double newlines
@@ -56,6 +51,9 @@ export class PromptBuilder {
 
 /**
  * Convenience function to build a prompt
+ * @param {string} formType - The form type identifier
+ * @param {Object} data - Contains formData, extractedTexts, formType
+ * @returns {string} Complete formatted prompt
  */
 export function buildPrompt(formType, data) {
   const builder = new PromptBuilder(formType);

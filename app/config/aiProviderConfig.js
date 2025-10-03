@@ -1,30 +1,28 @@
 // app/config/aiProviderConfig.js
 
-import { AI_PROVIDERS } from "@/app/services/ai/aiServiceFactory";
+import { getAllFormTypes, getAIConfig } from "./formTypes/registryUtils";
 
-export const formAIConfig = {
-  General: {
-    provider: AI_PROVIDERS.OPENAI,
-    config: {
-      model: "gpt-5-mini",
-      temperature: 1,
-      max_completion_tokens: 500,
-    },
-  },
-  Instructions: {
-    provider: AI_PROVIDERS.GEMINI,
-    config: {
-      model: "models/gemini-flash-lite-latest",
-      temperature: 0.7,
-      maxTokens: 500,
-    },
-  },
-  "Tabshir Instructions": {
-    provider: AI_PROVIDERS.OPENAI,
-    config: {
-      model: "gpt-5-mini",
-      temperature: 1,
-      max_completion_tokens: 500,
-    },
-  },
-};
+/**
+ * Dynamically build AI provider configurations from registry
+ */
+function buildAIConfig() {
+  const config = {};
+  const formTypes = getAllFormTypes();
+
+  formTypes.forEach((formType) => {
+    const aiSettings = getAIConfig(formType);
+
+    config[formType] = {
+      provider: aiSettings.provider,
+      config: {
+        model: aiSettings.model,
+        temperature: aiSettings.temperature,
+        maxTokens: aiSettings.maxTokens,
+      },
+    };
+  });
+
+  return config;
+}
+
+export const formAIConfig = buildAIConfig();
