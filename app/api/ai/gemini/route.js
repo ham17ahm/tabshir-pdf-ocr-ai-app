@@ -22,10 +22,10 @@ export async function POST(request) {
       formType,
     });
 
-    // // 🔍 LOG 2: See the built prompt that will be sent to Gemini
-    // console.log("\n=== GEMINI API - BUILT PROMPT ===");
-    // console.log(userMessage);
-    // console.log("=== END OF PROMPT ===\n");
+    // 🔍 LOG 2: See the built prompt that will be sent to Gemini
+    console.log("\n=== GEMINI API - BUILT PROMPT ===");
+    console.log(userMessage);
+    console.log("=== END OF PROMPT ===\n");
 
     // Get the Gemini model
     const model = genAI.getGenerativeModel({ model: config.model });
