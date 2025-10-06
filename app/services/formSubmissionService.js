@@ -1,11 +1,15 @@
 // app/services/formSubmissionService.js
 
 import { getAIService } from "@/app/services/ai/aiServiceFactory";
-import { formAIConfig } from "@/app/config/aiProviderConfig";
 
-export const submitFormData = async (formData, extractedTexts, formType) => {
+export const submitFormData = async (
+  deptConfig,
+  formData,
+  extractedTexts,
+  formType
+) => {
   try {
-    const aiConfig = formAIConfig[formType];
+    const aiConfig = deptConfig.aiConfig[formType];
 
     if (!aiConfig) {
       throw new Error(`No AI configuration found for form type: ${formType}`);
@@ -13,8 +17,9 @@ export const submitFormData = async (formData, extractedTexts, formType) => {
 
     const aiService = getAIService(aiConfig.provider);
 
-    // Call the AI service (no more prompt parameter)
+    // Call the AI service with department config
     const summary = await aiService.summarize(
+      deptConfig,
       formData,
       extractedTexts,
       formType,

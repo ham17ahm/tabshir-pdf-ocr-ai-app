@@ -1,25 +1,22 @@
 // app/services/ai/promptBuilder.js
 
-import { promptTemplates } from "@/app/config/promptTemplates";
-import { isValidFormType } from "@/app/config/formTypes/registryUtils";
-
 /**
  * Prompt builder service
- * Constructs prompts based on templates from registry
+ * Constructs prompts based on department configuration
  */
 export class PromptBuilder {
-  constructor(formType) {
-    if (!isValidFormType(formType)) {
+  constructor(deptConfig, formType) {
+    if (!deptConfig.promptTemplates[formType]) {
       throw new Error(`Invalid form type: ${formType}`);
     }
 
-    this.template = promptTemplates[formType];
+    this.template = deptConfig.promptTemplates[formType];
     this.formType = formType;
   }
 
   /**
    * Build the complete prompt
-   * @param {Object} data - Contains formData, extractedTexts, formType
+   * @param {Object} data - Contains formData, extractedTexts
    * @returns {string} Complete formatted prompt
    */
   build(data) {
@@ -51,11 +48,12 @@ export class PromptBuilder {
 
 /**
  * Convenience function to build a prompt
+ * @param {Object} deptConfig - Department configuration
  * @param {string} formType - The form type identifier
- * @param {Object} data - Contains formData, extractedTexts, formType
+ * @param {Object} data - Contains formData, extractedTexts
  * @returns {string} Complete formatted prompt
  */
-export function buildPrompt(formType, data) {
-  const builder = new PromptBuilder(formType);
+export function buildPrompt(deptConfig, formType, data) {
+  const builder = new PromptBuilder(deptConfig, formType);
   return builder.build(data);
 }

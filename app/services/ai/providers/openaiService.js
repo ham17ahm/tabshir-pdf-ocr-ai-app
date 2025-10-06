@@ -3,7 +3,7 @@
 export const openaiService = {
   providerName: "OpenAI",
 
-  async summarize(formData, extractedTexts, formType, config) {
+  async summarize(deptConfig, formData, extractedTexts, formType, config) {
     try {
       const response = await fetch("/api/ai/openai", {
         method: "POST",
@@ -11,6 +11,8 @@ export const openaiService = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          // Just pass the department identifier, not the whole config
+          departmentId: deptConfig.departmentId,
           formData,
           extractedTexts,
           formType,

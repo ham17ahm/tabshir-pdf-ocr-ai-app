@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { formTemplates } from "@/app/config/formTemplates";
 import { submitFormData } from "@/app/services/formSubmissionService";
 
-export default function DynamicForm({ extractedTexts }) {
+export default function DynamicForm({ deptConfig, extractedTexts }) {
   const [selectedOption, setSelectedOption] = useState("");
   const [formData, setFormData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,6 +34,7 @@ export default function DynamicForm({ extractedTexts }) {
 
     try {
       const response = await submitFormData(
+        deptConfig,
         formData,
         extractedTexts,
         selectedOption
@@ -53,8 +53,10 @@ export default function DynamicForm({ extractedTexts }) {
   // Only show if there's extracted text
   if (extractedTexts.length === 0) return null;
 
-  const options = Object.keys(formTemplates);
-  const selectedTemplate = selectedOption ? formTemplates[selectedOption] : [];
+  const options = Object.keys(deptConfig.formTemplates);
+  const selectedTemplate = selectedOption
+    ? deptConfig.formTemplates[selectedOption]
+    : [];
 
   return (
     <div className="mt-6 p-6 bg-white rounded-lg border border-gray-300">

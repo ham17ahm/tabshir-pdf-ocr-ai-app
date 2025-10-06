@@ -3,7 +3,7 @@
 export const geminiService = {
   providerName: "Gemini",
 
-  async summarize(formData, extractedTexts, formType, config) {
+  async summarize(deptConfig, formData, extractedTexts, formType, config) {
     try {
       const response = await fetch("/api/ai/gemini", {
         method: "POST",
@@ -11,6 +11,8 @@ export const geminiService = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          // Just pass the department identifier, not the whole config
+          departmentId: deptConfig.departmentId,
           formData,
           extractedTexts,
           formType,
