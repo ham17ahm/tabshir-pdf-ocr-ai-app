@@ -1,76 +1,58 @@
-"use client";
+import Link from "next/link";
+import { departments } from "@/app/config/departments";
 
-import { usePdfProcessor } from "@/app/hooks/usePdfProcessor";
-import PdfUploader from "@/app/components/pdf/PdfUploader";
-import PdfImagePreview from "@/app/components/pdf/PdfImagePreview";
-import ExtractedTextDisplay from "@/app/components/pdf/ExtractedTextDisplay";
-
-export default function TestPdfPage() {
-  const {
-    images,
-    extractedTexts,
-    loadingPdf,
-    loadingOcr,
-    error,
-    processPdf,
-    extractText,
-  } = usePdfProcessor();
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    processPdf(file);
-  };
-
-  const handleExtractText = () => {
-    extractText();
+export default function LandingPage() {
+  const getColorClasses = (color) => {
+    const colors = {
+      blue: "border-blue-500 group-hover:text-blue-600",
+      emerald: "border-emerald-500 group-hover:text-emerald-600",
+      purple: "border-purple-500 group-hover:text-purple-600",
+      orange: "border-orange-500 group-hover:text-orange-600",
+    };
+    return colors[color] || colors.blue;
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Left Column */}
-      <div className="w-1/2 p-8 border-r border-gray-300 overflow-y-auto bg-white">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-          Correspondence Assistance System
-        </h1>
-
-        {/* Buttons Row */}
-        <div className="flex gap-3 mb-6">
-          <PdfUploader onFileSelect={handleFileChange} loading={loadingPdf} />
-
-          {images.length > 0 && (
-            <button
-              onClick={handleExtractText}
-              disabled={loadingOcr}
-              className={`
-                px-6 py-3 rounded-lg font-medium text-sm text-white
-                transition-colors duration-200 whitespace-nowrap
-                ${
-                  loadingOcr
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-emerald-500 hover:bg-emerald-600 cursor-pointer"
-                }
-              `}
-            >
-              {loadingOcr ? "Extracting..." : "Extract Text"}
-            </button>
-          )}
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 flex flex-col">
+      <div className="flex-grow container mx-auto px-4 py-16">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Correspondence Assistance System
+          </h1>
+          <p className="text-xl text-gray-600">
+            Select your department to get started
+          </p>
         </div>
 
-        {loadingPdf && (
-          <p className="text-gray-500 text-sm mb-3">Converting PDF...</p>
-        )}
-
-        {loadingOcr && (
-          <p className="text-gray-500 text-sm mb-3">Processing OCR...</p>
-        )}
-
-        {error && <p className="text-red-500 text-sm mb-3">Error: {error}</p>}
-
-        <PdfImagePreview images={images} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {departments.map((dept) => (
+            <Link
+              key={dept.href}
+              href={dept.href}
+              className={`block p-8 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative group border-t-4 ${getColorClasses(
+                dept.color
+              )}`}
+            >
+              <div className="text-5xl mb-4">{dept.icon}</div>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                {dept.name}
+              </h2>
+              <p className="text-gray-600">{dept.description}</p>
+              <div
+                className={`absolute bottom-6 right-6 text-2xl text-gray-400 group-hover:translate-x-1 transition-all ${
+                  getColorClasses(dept.color).split(" ")[1]
+                }`}
+              >
+                →
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
 
-      {/* Right Column */}
-      <ExtractedTextDisplay extractedTexts={extractedTexts} />
+      <footer className="py-6 text-center text-gray-600">
+        <p>© 2025 Correspondence Assistance System. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

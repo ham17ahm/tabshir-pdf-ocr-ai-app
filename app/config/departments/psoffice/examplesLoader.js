@@ -6,15 +6,18 @@ import {
 } from "@/app/config/formTypes/registryUtils";
 import { psofficeRegistry } from "./registry";
 
-// PS Office will import their examples here when ready
-// import PSGeneralExamples from "./examples/PSGeneral.json";
+// Import PS Office examples
+import PSGeneralExamples from "./examples/PSGeneral.json";
+import PSInstructionsExamples from "./examples/PSInstructions.json";
+import PSTabshirInstructionsExamples from "./examples/PSTabshirInstructions.json";
 
 /**
  * Map of example file names to their imported data
  */
 const examplesFileMap = {
-  // PS Office will add their examples here
-  // "PSGeneral.json": PSGeneralExamples,
+  "PSGeneral.json": PSGeneralExamples,
+  "PSInstructions.json": PSInstructionsExamples,
+  "PSTabshirInstructions.json": PSTabshirInstructionsExamples,
 };
 
 /**
