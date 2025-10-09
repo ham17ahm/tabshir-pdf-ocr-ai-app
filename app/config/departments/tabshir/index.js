@@ -5,7 +5,6 @@ import { getTabshirExamples } from "./examplesLoader";
 import {
   buildFormTemplates,
   buildAIConfig,
-  buildPromptTemplates,
 } from "@/app/config/builders/configBuilder";
 
 /**
@@ -23,5 +22,5 @@ export const tabshirConfig = {
   // Built configurations
   formTemplates: buildFormTemplates(tabshirRegistry),
   aiConfig: buildAIConfig(tabshirRegistry),
-  promptTemplates: buildPromptTemplates(tabshirRegistry, getTabshirExamples),
+  // Remove the old promptTemplates since we use the new format
 };

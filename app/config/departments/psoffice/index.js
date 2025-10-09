@@ -5,7 +5,6 @@ import { getPSOfficeExamples } from "./examplesLoader";
 import {
   buildFormTemplates,
   buildAIConfig,
-  buildPromptTemplates,
 } from "@/app/config/builders/configBuilder";
 
 /**
@@ -23,5 +22,5 @@ export const psofficeConfig = {
   // Built configurations
   formTemplates: buildFormTemplates(psofficeRegistry),
   aiConfig: buildAIConfig(psofficeRegistry),
-  promptTemplates: buildPromptTemplates(psofficeRegistry, getPSOfficeExamples),
+  // Remove the old promptTemplates since we use the new format
 };

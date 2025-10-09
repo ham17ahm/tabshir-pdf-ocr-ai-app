@@ -34,6 +34,11 @@ export async function POST(request) {
       extractedTexts,
     });
 
+    // 🔍 LOG: See the built prompt
+    console.log("\n=== OPENAI API - BUILT PROMPT ===");
+    console.log(userMessage);
+    console.log("=== END OF PROMPT ===\n");
+
     // Call OpenAI API
     const completion = await openai.chat.completions.create({
       model: config.model,
