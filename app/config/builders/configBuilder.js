@@ -35,14 +35,24 @@ export function buildAIConfig(registry) {
   formTypes.forEach((formType) => {
     const aiSettings = getAIConfig(registry, formType);
 
-    config[formType] = {
-      provider: aiSettings.provider,
-      config: {
+    // CHANGED: Support both old (model) and new (models) format
+    if (aiSettings.models) {
+      // New format with multiple provider models
+      config[formType] = {
+        provider: aiSettings.provider,
+        models: aiSettings.models,
+        temperature: aiSettings.temperature,
+        maxTokens: aiSettings.maxTokens,
+      };
+    } else {
+      // Old format with single model (for backward compatibility)
+      config[formType] = {
+        provider: aiSettings.provider,
         model: aiSettings.model,
         temperature: aiSettings.temperature,
         maxTokens: aiSettings.maxTokens,
-      },
-    };
+      };
+    }
   });
 
   return config;

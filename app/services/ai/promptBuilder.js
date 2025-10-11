@@ -38,8 +38,12 @@ export class PromptBuilder {
    * Build prompt using NEW template format
    */
   buildFromTemplate(formData, extractedTexts) {
-    // Get examples for this form type
-    const examples = this.deptConfig.getExamples(this.formType);
+    // CHANGED: For Tabshir, use exampleCategory from formData
+    // For other departments, use formType
+    const exampleKey = formData.exampleCategory || this.formType;
+
+    // Get examples using the appropriate key
+    const examples = this.deptConfig.getExamples(exampleKey);
 
     // Format extracted texts
     const formattedExtractedTexts = extractedTexts

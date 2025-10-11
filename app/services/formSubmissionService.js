@@ -15,7 +15,24 @@ export const submitFormData = async (
       throw new Error(`No AI configuration found for form type: ${formType}`);
     }
 
-    const aiService = getAIService(aiConfig.provider);
+    // CHANGED: Check if user selected an AI provider in the form
+    let selectedProvider = aiConfig.provider; // default from registry
+
+    if (formData.aiProvider) {
+      // User selected a provider - convert to lowercase to match AI_PROVIDERS
+      selectedProvider = formData.aiProvider.toLowerCase();
+    }
+
+    const aiService = getAIService(selectedProvider);
+
+    // CHANGED: Select the correct model for the chosen provider
+    const modelConfig = {
+      model: aiConfig.models
+        ? aiConfig.models[selectedProvider]
+        : aiConfig.model,
+      temperature: aiConfig.temperature,
+      maxTokens: aiConfig.maxTokens,
+    };
 
     // Call the AI service with department config
     const summary = await aiService.summarize(
@@ -23,7 +40,7 @@ export const submitFormData = async (
       formData,
       extractedTexts,
       formType,
-      aiConfig.config
+      modelConfig
     );
 
     return {

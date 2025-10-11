@@ -1,41 +1,31 @@
 // app/config/departments/tabshir/examplesLoader.js
 
-import {
-  getExamplesFileName,
-  isValidFormType,
-} from "@/app/config/formTypes/registryUtils";
-import { tabshirRegistry } from "./registry";
-
 // Import Tabshir's examples
 import GeneralExamples from "./examples/General.json";
 import InstructionsExamples from "./examples/Instructions.json";
 import TabshirInstructionsExamples from "./examples/TabshirInstructions.json";
 
 /**
- * Map of example file names to their imported data
+ * FLEXIBLE MAPPING: Example Category → Example File
+ * Add new categories here as you create more example files
  */
-const examplesFileMap = {
-  "General.json": GeneralExamples,
-  "Instructions.json": InstructionsExamples,
-  "TabshirInstructions.json": TabshirInstructionsExamples,
+const EXAMPLE_CATEGORY_MAP = {
+  General: GeneralExamples,
+  "Alternative Examples": InstructionsExamples, // Using Instructions as placeholder
+  // Future: Add more mappings here
+  // "Another Category": AnotherExamplesFile,
 };
 
 /**
- * Get examples for a specific Tabshir form type
- * @param {string} formType - The form type identifier
+ * Get examples for a specific category
+ * @param {string} categoryName - The example category selected by user
  * @returns {Array} Array of example objects
  */
-export function getTabshirExamples(formType) {
-  if (!isValidFormType(tabshirRegistry, formType)) {
-    console.warn(`Invalid form type for Tabshir: ${formType}`);
-    return [];
-  }
-
-  const fileName = getExamplesFileName(tabshirRegistry, formType);
-  const examples = examplesFileMap[fileName];
+export function getTabshirExamples(categoryName) {
+  const examples = EXAMPLE_CATEGORY_MAP[categoryName];
 
   if (!examples) {
-    console.warn(`No examples found for Tabshir: ${fileName}`);
+    console.warn(`No examples found for category: ${categoryName}`);
     return [];
   }
 

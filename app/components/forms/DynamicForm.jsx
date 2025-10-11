@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { submitFormData } from "@/app/services/formSubmissionService";
 
 export default function DynamicForm({ deptConfig, extractedTexts }) {
@@ -9,6 +9,15 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [aiSummary, setAiSummary] = useState("");
   const [error, setError] = useState("");
+
+  const options = Object.keys(deptConfig.formTemplates);
+
+  // CHANGED: Auto-select if only one option available
+  useEffect(() => {
+    if (options.length === 1 && !selectedOption) {
+      setSelectedOption(options[0]);
+    }
+  }, [options, selectedOption]);
 
   const handleOptionChange = (e) => {
     const option = e.target.value;
@@ -53,7 +62,6 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
   // Only show if there's extracted text
   if (extractedTexts.length === 0) return null;
 
-  const options = Object.keys(deptConfig.formTemplates);
   const selectedTemplate = selectedOption
     ? deptConfig.formTemplates[selectedOption]
     : [];
@@ -64,19 +72,21 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
         Form Selection
       </h2>
 
-      {/* Dropdown */}
-      <select
-        value={selectedOption}
-        onChange={handleOptionChange}
-        className="w-full p-2.5 text-sm border border-gray-300 rounded-md mb-5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-      >
-        <option value="">Select an option...</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+      {/* CHANGED: Only show dropdown if multiple options available */}
+      {options.length > 1 && (
+        <select
+          value={selectedOption}
+          onChange={handleOptionChange}
+          className="w-full p-2.5 text-sm border border-gray-300 rounded-md mb-5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="">Select an option...</option>
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      )}
 
       {/* Dynamic Form Fields */}
       {selectedTemplate.length > 0 && (
