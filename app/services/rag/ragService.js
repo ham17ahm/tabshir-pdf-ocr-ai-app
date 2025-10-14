@@ -55,19 +55,9 @@ export function formatExamplesForPrompt(examples) {
 /**
  * Build search query from user inputs
  * @param {Object} params - { letterType, context, extractedTexts }
- * @returns {string} - Combined search query
+ * @returns {string} - Search query (just letter type)
  */
 export function buildSearchQuery({ letterType, context, extractedTexts }) {
-  const parts = [];
-
-  if (letterType) parts.push(letterType);
-  if (context) parts.push(context);
-
-  // Add first page of extracted text (if available)
-  if (extractedTexts && extractedTexts.length > 0) {
-    const firstPage = extractedTexts[0].substring(0, 500); // First 500 chars
-    parts.push(firstPage);
-  }
-
-  return parts.join(" ");
+  // Search only by letter type for focused results
+  return letterType || "";
 }

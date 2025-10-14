@@ -24,7 +24,7 @@ async function testSearch() {
   console.log("🔍 Testing RAG search...\n");
 
   // Test query
-  const testQuery = "Travel permission and airport pickup arrangement";
+  const testQuery = "عاملی کی منظوری";
 
   console.log(`Query: "${testQuery}"\n`);
 

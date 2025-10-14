@@ -25,7 +25,8 @@ export const tabshirRegistry = {
         label: "Type of Letter",
         type: "text",
         placeholder:
-          "e.g., Travel permission, Accommodation request, Complaint acknowledgment",
+          "Be specific: e.g., Permission to attend Jalsa Salana, Airport pickup arrangement, Accommodation request for guest",
+
         required: true,
       },
       {
@@ -39,11 +40,12 @@ export const tabshirRegistry = {
     ai: {
       provider: "openai",
       models: {
-        openai: "gpt-4o-mini",
-        gemini: "models/gemini-flash-lite-latest",
+        openai: "gpt-5-mini-2025-08-07",
+        gemini: "models/gemini-2.5-pro",
       },
-      temperature: 0.7,
-      maxTokens: 500,
+      temperature: 1,
+      // maxTokens: 500,
+      max_completion_tokens: 500,
     },
     useRAG: true,
     ragConfig: {

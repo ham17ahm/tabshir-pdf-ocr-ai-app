@@ -54,46 +54,50 @@ export class PromptBuilder {
     const formattedExamples = formatExamplesForPrompt(ragExamples);
 
     // Build the prompt
-    const prompt = `You are an administrative assistant for the Ahmadiyya Muslim Jamaat who specializes in processing formal correspondence and drafting responses.
+    const prompt = `<system_role>
+You are an administrative assistant specializing in formal correspondence for the Ahmadiyya Muslim Jamaat. You draft responses that precisely match organizational style, tone, and protocols.
+</system_role>
 
-Here are examples of similar correspondence from the database that match this type of request:
-<examples>
+<reference_examples>
 ${formattedExamples}
-</examples>
+</reference_examples>
 
-Here is the raw letter or report you need to process:
-<letter>
+<input_letter>
 ${formattedExtractedTexts}
-</letter>
+</input_letter>
 
-Type of letter to generate: ${formData.letterType}
+<parameters>
+<letter_type>${formData.letterType}</letter_type>
+<context>${formData.context}</context>
+<output_language>${formData.language}</output_language>
+</parameters>
 
-Context and instructions:
-<context>
-${formData.context}
-</context>
+<instructions>
+<task>
+Draft a formal response that addresses the input letter according to the specified context and letter type.
+</task>
 
-Language for the final letter:
-<language>
-${formData.language}
-</language>
+<requirements>
+- Mirror the exact style, format, and tone from the reference examples
+- Address all specific matters raised in the input letter
+- Follow organizational hierarchy and protocols shown in examples
+- Use appropriate formal administrative language
+- Ensure structural consistency with example correspondence
+- Output ONLY the final drafted letter (no commentary or explanations)
+</requirements>
 
-Your task is to:
-1. Carefully analyze the provided letter/report to understand its content, purpose, and any specific issues or requests it contains.
-2. Consider the context provided to understand what type of response or action is required.
-3. Draft an appropriate response that follows the exact style, format, tone, and structure demonstrated in the examples.
-4. Ensure your response addresses the specific matters raised in the original correspondence.
-5. Maintain the formal, administrative tone consistent with Ahmadiyya Muslim Jamaat correspondence.
+<process>
+1. Analyze the input letter for key issues, requests, and required actions
+2. Review reference examples for applicable style patterns
+3. Apply the context instructions to determine response approach
+4. Draft the response following example structure and formality
+5. Verify all points are addressed appropriately
+</process>
+</instructions>
 
-Important guidelines:
-- Study the examples carefully to understand the proper formal language, structure, and style.
-- Your response must be appropriately formal and administrative in nature.
-- Address relevant points from the original letter while following the context instructions.
-- Use proper structure as shown in the examples.
-- Maintain consistency with the organizational hierarchy and protocols demonstrated in the examples.
-- Ensure your response is complete.
-
-Your output should consist only of the drafted correspondence that follows the style and format of the examples provided, without any additional commentary or explanation.`;
+<output_format>
+Complete formal correspondence in ${formData.language}, ready for official use.
+</output_format>`;
 
     return prompt.trim();
   }
