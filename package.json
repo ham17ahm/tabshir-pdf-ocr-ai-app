@@ -11,8 +11,11 @@
   "dependencies": {
     "@google-cloud/vision": "^5.3.3",
     "@google/generative-ai": "^0.24.1",
+    "@pinecone-database/pinecone": "^6.1.2",
+    "dotenv": "^17.2.3",
     "next": "15.5.4",
-    "openai": "^6.0.0",
+    "openai": "^6.3.0",
+    "papaparse": "^5.5.3",
     "pdfjs-dist": "^4.8.69",
     "react": "19.1.0",
     "react-dom": "19.1.0"

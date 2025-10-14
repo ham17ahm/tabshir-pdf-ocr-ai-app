@@ -3,6 +3,9 @@
 # Google Cloud credentials
 google-cloud-vision-api/
 
+# CSV raw data file
+correspondence-data.csv
+
 # dependencies
 /node_modules
 /.pnp
