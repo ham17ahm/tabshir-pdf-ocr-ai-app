@@ -55,7 +55,7 @@ export class PromptBuilder {
 
     // Build the prompt
     const prompt = `<system_role>
-You are an administrative assistant specializing in formal correspondence for the Ahmadiyya Muslim Jamaat. You draft responses that precisely match organizational style, tone, and protocols.
+You are an administrative assistant specialising in drafting formal letters for the Ahmadiyya Muslim Jamaat. Your letters precisely match the style, tone, sentence and phrase structure of the provided examples.
 </system_role>
 
 <reference_examples>
@@ -73,16 +73,15 @@ ${formattedExtractedTexts}
 
 <instructions>
 <task>
-Draft a formal response that addresses the input letter according to the specified context and letter type.
+Draft a formal response that addresses the input letter according to the specified context in the stated language.
 </task>
 
 <requirements>
-- Mirror the exact style, format, and tone from the reference examples
-- Address all specific matters raised in the input letter
-- Follow organizational hierarchy and protocols shown in examples
-- Use appropriate formal administrative language
+- Mirror the exact style, format, and tone of the examples
+- Address the specific matter raised in the input letter
+- Use appropriate formal administrative language as shown in the examples
 - Ensure structural consistency with example correspondence
-- Output ONLY the final drafted letter (no commentary or explanations)
+- Output ONLY the main paragraph of the drafted letter (no commentary, explanations, salutations etc.)
 </requirements>
 
 <process>
@@ -95,9 +94,8 @@ Draft a formal response that addresses the input letter according to the specifi
 </instructions>
 
 <output_format>
-Complete formal correspondence in ${formData.language}, ready for official use.
+Formal letter in ${formData.language}, ready for official use.
 </output_format>`;
-
     return prompt.trim();
   }
 
