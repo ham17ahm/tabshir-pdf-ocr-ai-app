@@ -67,7 +67,6 @@ ${formattedExtractedTexts}
 </input_letter>
 
 <parameters>
-<letter_type>${formData.letterType}</letter_type>
 <context>${formData.context}</context>
 <output_language>${formData.language}</output_language>
 </parameters>

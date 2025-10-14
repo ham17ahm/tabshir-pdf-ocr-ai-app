@@ -40,7 +40,7 @@ export const tabshirRegistry = {
     ai: {
       provider: "openai",
       models: {
-        openai: "gpt-5-mini-2025-08-07",
+        openai: "gpt-5-2025-08-07",
         gemini: "models/gemini-2.5-pro",
       },
       temperature: 1,
@@ -49,7 +49,7 @@ export const tabshirRegistry = {
     },
     useRAG: true,
     ragConfig: {
-      topK: 8, // Number of examples to retrieve (you can change this)
+      topK: 10, // Number of examples to retrieve (you can change this)
     },
   },
 };
