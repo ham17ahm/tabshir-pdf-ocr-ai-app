@@ -9,6 +9,7 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [aiSummary, setAiSummary] = useState("");
   const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const options = Object.keys(deptConfig.formTemplates);
 
@@ -56,6 +57,16 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
       console.error("Submission error:", error);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(aiSummary);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -169,9 +180,17 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
       {/* AI Answer Display */}
       {aiSummary && (
         <div className="mt-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-2">
-            AI Answer
-          </h4>
+          <div className="flex justify-between items-center mb-2">
+            <h4 className="text-sm font-semibold text-gray-900">
+              Draft Answer
+            </h4>
+            <button
+              onClick={handleCopy}
+              className="px-4 py-1.5 text-md text-white bg-gray-600 hover:bg-gray-700 rounded-md transition-colors duration-200"
+            >
+              {copied ? "Copied!" : "Copy"}
+            </button>
+          </div>
           <textarea
             readOnly
             value={aiSummary}
