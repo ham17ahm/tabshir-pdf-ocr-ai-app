@@ -15,44 +15,28 @@ export function usePdfProcessor() {
     if (!file) return;
 
     setLoadingPdf(true);
-    setError(null);
-    setImages([]);
-    setExtractedTexts([]); // Clear previous OCR results
-
-    try {
-      // Convert PDF to images only
-      const convertedImages = await convertPdfToImages(file, { scale: 2 });
-      setImages(convertedImages);
-    } catch (err) {
-      console.error("Error processing PDF:", err);
-      setError(err.message || "Failed to process PDF");
-    } finally {
-      setLoadingPdf(false);
-    }
-  };
-
-  const extractText = async () => {
-    if (images.length === 0) {
-      setError("No images to extract text from");
-      return;
-    }
-
     setLoadingOcr(true);
     setError(null);
+    setImages([]);
     setExtractedTexts([]);
 
     try {
-      // Extract text from each image
+      // Convert PDF to images
+      const convertedImages = await convertPdfToImages(file, { scale: 2 });
+      setImages(convertedImages);
+
+      // Automatically extract text from images
       const texts = [];
-      for (const image of images) {
+      for (const image of convertedImages) {
         const text = await extractTextFromImage(image);
         texts.push(text);
       }
       setExtractedTexts(texts);
     } catch (err) {
-      console.error("Error extracting text:", err);
-      setError(err.message || "Failed to extract text");
+      console.error("Error processing PDF:", err);
+      setError(err.message || "Failed to process PDF");
     } finally {
+      setLoadingPdf(false);
       setLoadingOcr(false);
     }
   };
@@ -64,6 +48,5 @@ export function usePdfProcessor() {
     loadingOcr,
     error,
     processPdf,
-    extractText,
   };
 }

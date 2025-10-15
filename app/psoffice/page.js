@@ -7,23 +7,12 @@ import ExtractedTextDisplay from "@/app/components/pdf/ExtractedTextDisplay";
 import { psofficeConfig } from "@/app/config/departments/psoffice";
 
 export default function PSOffice() {
-  const {
-    images,
-    extractedTexts,
-    loadingPdf,
-    loadingOcr,
-    error,
-    processPdf,
-    extractText,
-  } = usePdfProcessor();
+  const { images, extractedTexts, loadingPdf, loadingOcr, error, processPdf } =
+    usePdfProcessor();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     processPdf(file);
-  };
-
-  const handleExtractText = () => {
-    extractText();
   };
 
   return (
@@ -37,32 +26,12 @@ export default function PSOffice() {
         {/* Buttons Row */}
         <div className="flex gap-3 mb-6">
           <PdfUploader onFileSelect={handleFileChange} loading={loadingPdf} />
-
-          {images.length > 0 && (
-            <button
-              onClick={handleExtractText}
-              disabled={loadingOcr}
-              className={`
-                px-6 py-3 rounded-lg font-medium text-sm text-white
-                transition-colors duration-200 whitespace-nowrap
-                ${
-                  loadingOcr
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-emerald-500 hover:bg-emerald-600 cursor-pointer"
-                }
-              `}
-            >
-              {loadingOcr ? "Extracting..." : "Extract Text"}
-            </button>
-          )}
         </div>
 
-        {loadingPdf && (
-          <p className="text-gray-500 text-sm mb-3">Converting PDF...</p>
-        )}
-
-        {loadingOcr && (
-          <p className="text-gray-500 text-sm mb-3">Processing OCR...</p>
+        {(loadingPdf || loadingOcr) && (
+          <p className="text-gray-500 text-sm mb-3">
+            Processing PDF and extracting text...
+          </p>
         )}
 
         {error && <p className="text-red-500 text-sm mb-3">Error: {error}</p>}
