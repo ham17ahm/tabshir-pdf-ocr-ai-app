@@ -21,11 +21,17 @@ export const psofficeRegistry = {
       },
     ],
     ai: {
-      provider: "openai",
-      model: "gpt-5-2025-08-07",
+      provider: "gemini",
+      model: "models/gemini-2.5-pro",
       temperature: 1,
       // maxTokens: 500,
     },
+    // ai: {
+    //   provider: "openai",
+    //   model: "gpt-5-2025-08-07",
+    //   temperature: 1,
+    //   // maxTokens: 500,
+    // },
     promptTemplate: (
       formData,
       extractedTexts,
@@ -52,7 +58,7 @@ IMPORTANT STYLE/GUIDANCE
 
 PROCEDURE:
 
-1) First paragraph — Summary of the incoming letter, focusing on the crux of the matter explained in well written Urdu in a natural way.
+1) First paragraph — Provide a short and minimal gist of the letter in Urdu, written in a natural style, limited to only a few comprehensive sentences, covering only the crux of the matter and directly relevant points (no unnecessary or unrelated details).
 2) Second paragraph — Write:
      اطلاعاً تحریر ہے کہ یہ خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ملاحظہ فرما لیا ہے اور ارشاد فرمایا ہے کہ:
 **“[Insert the full, verbatim instruction(s) here without summarizing.]”**
