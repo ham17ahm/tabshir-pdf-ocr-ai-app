@@ -8,7 +8,7 @@ import { psofficeRegistry } from "./registry";
 
 // Import PS Office examples
 import PSGeneralExamples from "./examples/Category1.json";
-import PSInstructionsExamples from "./examples/PSInstructions.json";
+import PSInstructionsExamples from "./examples/Category2.json";
 import PSTabshirInstructionsExamples from "./examples/PSTabshirInstructions.json";
 
 /**
@@ -16,7 +16,7 @@ import PSTabshirInstructionsExamples from "./examples/PSTabshirInstructions.json
  */
 const examplesFileMap = {
   "Category1.json": PSGeneralExamples,
-  "PSInstructions.json": PSInstructionsExamples,
+  "Category2.json": PSInstructionsExamples,
   "PSTabshirInstructions.json": PSTabshirInstructionsExamples,
 };
 
