@@ -5,6 +5,14 @@ export const psofficeRegistry = {
     displayName: "Category 1",
     fields: [
       {
+        name: "aiProvider",
+        label: "AI Provider",
+        type: "select",
+        options: ["OpenAI", "Gemini"],
+        placeholder: "Select AI provider",
+        required: true,
+      },
+      {
         name: "language",
         label: "Language",
         type: "select",
@@ -14,24 +22,21 @@ export const psofficeRegistry = {
       },
       {
         name: "context",
-        label: "Context",
+        label: "Instructions by Huzoor Anwar (aa)",
         type: "textarea",
-        placeholder: "Enter context",
+        placeholder: "Enter exact instruction either in Urdu or English",
         required: true,
       },
     ],
     ai: {
-      provider: "gemini",
-      model: "models/gemini-2.5-pro",
+      provider: "gemini", // Default provider
+      availableProviders: ["OpenAI", "Gemini"],
+      models: {
+        openai: "gpt-5-2025-08-07",
+        gemini: "models/gemini-2.5-pro",
+      },
       temperature: 1,
-      // maxTokens: 500,
     },
-    // ai: {
-    //   provider: "openai",
-    //   model: "gpt-5-2025-08-07",
-    //   temperature: 1,
-    //   // maxTokens: 500,
-    // },
     promptTemplate: (
       formData,
       extractedTexts,
@@ -58,7 +63,7 @@ IMPORTANT STYLE/GUIDANCE
 
 PROCEDURE:
 
-1) First paragraph — Provide a short and minimal gist of the letter in Urdu, written in a natural style, limited to only a few comprehensive sentences, covering only the crux of the matter and directly relevant points (no unnecessary or unrelated details).
+1) First paragraph — Provide a short and minimal gist of the letter in Urdu, written in a natural way, using common phrases, limited to only a few comprehensive sentences, covering only the crux of the matter and directly relevant points (no unnecessary or unrelated details).
 2) Second paragraph — Write:
      اطلاعاً تحریر ہے کہ یہ خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ملاحظہ فرما لیا ہے اور ارشاد فرمایا ہے کہ:
 **“[Insert the full, verbatim instruction(s) here without summarizing.]”**
@@ -70,6 +75,14 @@ PROCEDURE:
   "Category 2": {
     displayName: "Category 2",
     fields: [
+      {
+        name: "aiProvider",
+        label: "AI Provider",
+        type: "select",
+        options: ["OpenAI", "Gemini"],
+        placeholder: "Select AI provider",
+        required: true,
+      },
       {
         name: "language",
         label: "Language",
@@ -94,8 +107,12 @@ PROCEDURE:
       },
     ],
     ai: {
-      provider: "gemini",
-      model: "models/gemini-flash-lite-latest",
+      provider: "gemini", // Default provider
+      availableProviders: ["OpenAI", "Gemini"],
+      models: {
+        openai: "gpt-4o-mini",
+        gemini: "models/gemini-flash-lite-latest",
+      },
       temperature: 0.7,
       maxTokens: 500,
     },
@@ -124,6 +141,14 @@ Please only provide the main part of the letter, without any dates, subject line
     displayName: "Category 3",
     fields: [
       {
+        name: "aiProvider",
+        label: "AI Provider",
+        type: "select",
+        options: ["OpenAI", "Gemini"],
+        placeholder: "Select AI provider",
+        required: true,
+      },
+      {
         name: "language",
         label: "Language",
         type: "select",
@@ -147,8 +172,12 @@ Please only provide the main part of the letter, without any dates, subject line
       },
     ],
     ai: {
-      provider: "openai",
-      model: "gpt-4o-mini",
+      provider: "gemini", // Default provider
+      availableProviders: ["OpenAI", "Gemini"],
+      models: {
+        openai: "gpt-4o-mini",
+        gemini: "models/gemini-flash-lite-latest",
+      },
       temperature: 0.7,
       maxTokens: 500,
     },
