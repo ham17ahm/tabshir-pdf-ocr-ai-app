@@ -1,24 +1,11 @@
 // app/config/departments/psoffice/examplesLoader.js
 
+import * as ExamplesFiles from "./examples";
 import {
   getExamplesFileName,
   isValidFormType,
 } from "@/app/config/formTypes/registryUtils";
 import { psofficeRegistry } from "./registry";
-
-// Import PS Office examples
-import PSGeneralExamples from "./examples/Category1.json";
-import PSInstructionsExamples from "./examples/Category2.json";
-import PSTabshirInstructionsExamples from "./examples/PSTabshirInstructions.json";
-
-/**
- * Map of example file names to their imported data
- */
-const examplesFileMap = {
-  "Category1.json": PSGeneralExamples,
-  "Category2.json": PSInstructionsExamples,
-  "PSTabshirInstructions.json": PSTabshirInstructionsExamples,
-};
 
 /**
  * Get examples for a specific PS Office form type
@@ -27,16 +14,20 @@ const examplesFileMap = {
  */
 export function getPSOfficeExamples(formType) {
   if (!isValidFormType(psofficeRegistry, formType)) {
-    console.warn(`Invalid form type for PS Office: ${formType}`);
-    return [];
+    throw new Error(`Invalid form type for PS Office: ${formType}`);
   }
 
   const fileName = getExamplesFileName(psofficeRegistry, formType);
-  const examples = examplesFileMap[fileName];
+
+  // Remove .json extension to get the export name
+  const exportName = fileName.replace(".json", "");
+
+  const examples = ExamplesFiles[exportName];
 
   if (!examples) {
-    console.warn(`No examples found for PS Office: ${fileName}`);
-    return [];
+    throw new Error(
+      `Example file not found: ${fileName}. Make sure it's exported in examples/index.js`
+    );
   }
 
   return examples.examples || [];
