@@ -1,8 +1,8 @@
 // app/config/departments/psoffice/registry.js
 
 export const psofficeRegistry = {
-  "PS General": {
-    displayName: "PS General",
+  "Category 1": {
+    displayName: "Category 1",
     fields: [
       {
         name: "language",
@@ -22,15 +22,15 @@ export const psofficeRegistry = {
     ],
     ai: {
       provider: "openai",
-      model: "gpt-4o-mini",
-      temperature: 0.7,
-      maxTokens: 500,
+      model: "gpt-5-2025-08-07",
+      temperature: 1,
+      // maxTokens: 500,
     },
     promptTemplate: (
       formData,
       extractedTexts,
       examples
-    ) => `Below you will find examples and data to help you write a formal letter.
+    ) => `Below you will find a structure and example data to help you write a formal letter.
 
 CONTEXT: ${formData.context}
 OUTPUT LANGUAGE: ${formData.language}
@@ -38,15 +38,31 @@ OUTPUT LANGUAGE: ${formData.language}
 EXAMPLES OF DESIRED OUTPUT:
 ${examples}
 
+STRUCTURED FORMAT:
+[آپ کی طرف سے/آپ کا/آپ کی جانب سے] خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز کی خدمت میں موصول ہوا جس میں آپ نے [لکھا ہے/تحریر کیا ہے] کہ [Executive summary or gist of the crux of the matter, explained in well written Urdu in a natural way]۔ اطلاعاً تحریر ہے کہ یہ خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ملاحظہ فرما لیا ہے اور ارشاد فرمایا ہے کہ “[Verbatim Instructions as provided]”۔ ارشاد حضورانور برائے تعمیل ارسال خدمت ہے۔ جزاکم اللہ خیراً
+
 EXTRACTED PDF TEXT:
 ${extractedTexts}
 
-Your task is to write a formal letter in response to the raw letter provided in the "Extracted PDF Text" section, in light of the examples following the information provided. The "context" is for you to comprehend how and what to write the letter.`,
-    examplesFile: "PSGeneral.json",
+Your task is to write a formal letter in response to the raw letter provided in the "Extracted PDF Text" section, in light of the examples and the context above, following the structured format.
+
+IMPORTANT STYLE/GUIDANCE
+- Preserve a clear three-step structure as described below. The paragraph containing Huzoor’s instructions MUST be the second paragraph.
+- Reproduce the instructions in full (do not summarize). Enclose them in quotation marks (“ … ”).
+
+PROCEDURE:
+
+1) First paragraph — Summary of the incoming letter, focusing on the crux of the matter explained in well written Urdu in a natural way.
+2) Second paragraph — Write:
+     اطلاعاً تحریر ہے کہ یہ خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ملاحظہ فرما لیا ہے اور ارشاد فرمایا ہے کہ:
+**“[Insert the full, verbatim instruction(s) here without summarizing.]”**
+3) Closing sentence — Conclude with:
+     ارشاد حضورانور برائے تعمیل ارسال خدمت ہے۔ جزاکم اللہ خیراً`,
+    examplesFile: "Category1.json",
   },
 
-  "PS Instructions": {
-    displayName: "PS Instructions",
+  "Category 2": {
+    displayName: "Category 2",
     fields: [
       {
         name: "language",
@@ -98,8 +114,8 @@ Please only provide the main part of the letter, without any dates, subject line
     examplesFile: "PSInstructions.json",
   },
 
-  "PS Tabshir Instructions": {
-    displayName: "PS Tabshir Instructions",
+  "Category 3": {
+    displayName: "Category 3",
     fields: [
       {
         name: "language",
