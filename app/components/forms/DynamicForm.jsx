@@ -62,12 +62,44 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(aiSummary);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      // Try modern Clipboard API first (works on localhost)
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(aiSummary);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        // Fallback for non-secure contexts (LAN access)
+        fallbackCopy(aiSummary);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
     } catch (err) {
       console.error("Failed to copy:", err);
+      // If modern API fails, try fallback
+      fallbackCopy(aiSummary);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
+  };
+
+  // Fallback copy function for non-secure contexts
+  const fallbackCopy = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error("Fallback copy failed:", err);
+    }
+
+    document.body.removeChild(textArea);
   };
 
   // Only show if there's extracted text
