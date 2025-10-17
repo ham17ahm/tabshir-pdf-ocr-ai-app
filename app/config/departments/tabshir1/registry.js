@@ -1,6 +1,6 @@
 // app/config/departments/psoffice/registry.js
 
-export const psofficeRegistry = {
+export const tabshir1Registry = {
   "Category 1": {
     displayName: "Category 1",
     fields: [

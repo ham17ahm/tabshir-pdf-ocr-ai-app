@@ -3,8 +3,8 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { buildPrompt } from "@/app/services/ai/promptBuilder";
-import { tabshirConfig } from "@/app/config/departments/tabshir";
-import { psofficeConfig } from "@/app/config/departments/psoffice";
+import { tabshir1Config } from "@/app/config/departments/tabshir1";
+import { tabshir2Config } from "@/app/config/departments/tabshir2";
 import {
   searchSimilarExamples,
   buildSearchQuery,
@@ -16,8 +16,8 @@ const openai = new OpenAI({
 
 // Map department IDs to their configs
 const departmentConfigs = {
-  tabshir: tabshirConfig,
-  psoffice: psofficeConfig,
+  tabshir1: tabshir1Config,
+  tabshir2: tabshir2Config,
 };
 
 export async function POST(request) {

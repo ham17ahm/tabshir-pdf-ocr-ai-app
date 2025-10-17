@@ -1,15 +1,15 @@
 export const departments = [
   {
-    name: "PS Office",
-    href: "/psoffice",
-    description: "PS Office Correspondence System",
+    name: "Tabshir 1",
+    href: "/tabshir1",
+    description: "Tabshir 1 Correspondence System",
     icon: "📋",
     color: "blue",
   },
   {
-    name: "Wakalat Tabshir",
-    href: "/tabshir",
-    description: "Tabshir Correspondence System",
+    name: "Tabshir 2",
+    href: "/tabshir2",
+    description: "Tabshir 2 Correspondence System",
     icon: "📢",
     color: "emerald",
   },

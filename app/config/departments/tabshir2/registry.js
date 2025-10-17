@@ -1,6 +1,6 @@
 // app/config/departments/tabshir/registry.js
 
-export const tabshirRegistry = {
+export const tabshir2Registry = {
   General: {
     displayName: "General",
     fields: [

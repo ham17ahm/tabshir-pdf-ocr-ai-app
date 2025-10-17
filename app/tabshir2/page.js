@@ -4,9 +4,9 @@ import { usePdfProcessor } from "@/app/hooks/usePdfProcessor";
 import PdfUploader from "@/app/components/pdf/PdfUploader";
 import PdfImagePreview from "@/app/components/pdf/PdfImagePreview";
 import ExtractedTextDisplay from "@/app/components/pdf/ExtractedTextDisplay";
-import { psofficeConfig } from "@/app/config/departments/psoffice";
+import { tabshir2Config } from "@/app/config/departments/tabshir2";
 
-export default function PSOffice() {
+export default function Tabshir2Page() {
   const { images, extractedTexts, loadingPdf, loadingOcr, error, processPdf } =
     usePdfProcessor();
 
@@ -20,7 +20,7 @@ export default function PSOffice() {
       {/* Left Column */}
       <div className="w-1/2 p-8 border-r border-gray-300 overflow-y-auto bg-white">
         <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-          PS Office Correspondence Assistance System
+          Tabshir 2 Correspondence Assistance System
         </h1>
 
         {/* Buttons Row */}
@@ -41,7 +41,7 @@ export default function PSOffice() {
 
       {/* Right Column */}
       <ExtractedTextDisplay
-        deptConfig={psofficeConfig}
+        deptConfig={tabshir2Config}
         extractedTexts={extractedTexts}
       />
     </div>

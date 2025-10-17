@@ -1,6 +1,6 @@
-// app/config/departments/tabshir/examplesLoader.js
+// app/config/departments/tabshir2/examplesLoader.js
 
-// Import Tabshir's examples
+// Import Tabshir2's examples
 import GeneralExamples from "./examples/General.json";
 import InstructionsExamples from "./examples/Instructions.json";
 import TabshirInstructionsExamples from "./examples/TabshirInstructions.json";
@@ -21,7 +21,7 @@ const EXAMPLE_CATEGORY_MAP = {
  * @param {string} categoryName - The example category selected by user
  * @returns {Array} Array of example objects
  */
-export function getTabshirExamples(categoryName) {
+export function getTabshir2Examples(categoryName) {
   const examples = EXAMPLE_CATEGORY_MAP[categoryName];
 
   if (!examples) {

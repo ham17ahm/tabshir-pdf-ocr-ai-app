@@ -4,9 +4,9 @@ import { usePdfProcessor } from "@/app/hooks/usePdfProcessor";
 import PdfUploader from "@/app/components/pdf/PdfUploader";
 import PdfImagePreview from "@/app/components/pdf/PdfImagePreview";
 import ExtractedTextDisplay from "@/app/components/pdf/ExtractedTextDisplay";
-import { tabshirConfig } from "@/app/config/departments/tabshir";
+import { tabshir1Config } from "@/app/config/departments/tabshir1";
 
-export default function TabshirPage() {
+export default function Tabshir1() {
   const { images, extractedTexts, loadingPdf, loadingOcr, error, processPdf } =
     usePdfProcessor();
 
@@ -20,7 +20,7 @@ export default function TabshirPage() {
       {/* Left Column */}
       <div className="w-1/2 p-8 border-r border-gray-300 overflow-y-auto bg-white">
         <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-          Wakalat Tabshir Correspondence Assistance System
+          Tabshir 1 Correspondence Assistance System
         </h1>
 
         {/* Buttons Row */}
@@ -41,7 +41,7 @@ export default function TabshirPage() {
 
       {/* Right Column */}
       <ExtractedTextDisplay
-        deptConfig={tabshirConfig}
+        deptConfig={tabshir1Config}
         extractedTexts={extractedTexts}
       />
     </div>

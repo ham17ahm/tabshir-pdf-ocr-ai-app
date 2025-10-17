@@ -1,23 +1,23 @@
-// app/config/departments/psoffice/examplesLoader.js
+// app/config/departments/tabshir1/examplesLoader.js
 
 import * as ExamplesFiles from "./examples";
 import {
   getExamplesFileName,
   isValidFormType,
 } from "@/app/config/formTypes/registryUtils";
-import { psofficeRegistry } from "./registry";
+import { tabshir1Registry } from "./registry";
 
 /**
- * Get examples for a specific PS Office form type
+ * Get examples for a specific Tabshir1 form type
  * @param {string} formType - The form type identifier
  * @returns {Array} Array of example objects
  */
-export function getPSOfficeExamples(formType) {
-  if (!isValidFormType(psofficeRegistry, formType)) {
-    throw new Error(`Invalid form type for PS Office: ${formType}`);
+export function getTabshir1Examples(formType) {
+  if (!isValidFormType(tabshir1Registry, formType)) {
+    throw new Error(`Invalid form type for Tabshir1: ${formType}`);
   }
 
-  const fileName = getExamplesFileName(psofficeRegistry, formType);
+  const fileName = getExamplesFileName(tabshir1Registry, formType);
 
   // Remove .json extension to get the export name
   const exportName = fileName.replace(".json", "");
