@@ -43,14 +43,14 @@ export const psofficeRegistry = {
       examples
     ) => `Below you will find a structure and example data to help you write a formal letter.
 
-CONTEXT: ${formData.context}
+INSTRUCTIONS: ${formData.context}
 OUTPUT LANGUAGE: ${formData.language}
 
 EXAMPLES OF DESIRED OUTPUT:
 ${examples}
 
 STRUCTURED FORMAT:
-[آپ کی طرف سے/آپ کا/آپ کی جانب سے] خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز کی خدمت میں موصول ہوا جس میں آپ نے [لکھا ہے/تحریر کیا ہے] کہ [Executive summary or gist of the crux of the matter, explained in well written Urdu in a natural way]۔ اطلاعاً تحریر ہے کہ یہ خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ملاحظہ فرما لیا ہے اور ارشاد فرمایا ہے کہ “[Verbatim Instructions as provided]”۔ ارشاد حضورانور برائے تعمیل ارسال خدمت ہے۔ جزاکم اللہ خیراً
+[آپ کی طرف سے / آپ کا / آپ کی جانب سے] خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز کی خدمت میں موصول ہوا جس میں [آپ نے / آپ نے لکھا ہے کہ / آپ نے تحریر کیا ہے کہ] [Executive summary or gist of the crux of the matter, explained in well written Urdu in a natural way]۔ اطلاعاً تحریر ہے کہ یہ خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ملاحظہ فرما لیا ہے اور ارشاد فرمایا ہے کہ “[Verbatim Instructions as provided]”۔ ارشاد حضورانور برائے تعمیل ارسال خدمت ہے۔ جزاکم اللہ خیراً
 
 EXTRACTED PDF TEXT:
 ${extractedTexts}
@@ -114,14 +114,14 @@ PROCEDURE:
       examples
     ) => `Below you will find a structure and example data to help you write a formal letter.
 
-CONTEXT: ${formData.context}
+INSTRUCTIONS: ${formData.instructions}
 OUTPUT LANGUAGE: ${formData.language}
 
 EXAMPLES OF DESIRED OUTPUT:
 ${examples}
 
 STRUCTURED FORMAT:
-[آپ کی طرف سے/آپ کا/آپ کی جانب سے] خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز کی خدمت میں موصول ہوا جس میں آپ نے [لکھا ہے/تحریر کیا ہے] کہ [Executive summary or gist of the crux of the matter, explained in well written Urdu in a natural way]۔ اطلاعاً تحریر ہے کہ یہ معاملہ حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز کی خدمت میں پیش ہوا۔ حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ارشاد فرمایا ہے کہ “[Verbatim Instructions as provided]”۔ ارشاد حضورانور ارسال خدمت ہے۔ جزاکم اللہ خیراً
+[آپ کی طرف سے/آپ کا/آپ کی جانب سے] خط حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز کی خدمت میں موصول ہوا جس میں [آپ نے / آپ نے لکھا ہے کہ / آپ نے تحریر کیا ہے کہ] [Executive summary or gist of the crux of the matter, explained in well written Urdu in a natural way]۔ اطلاعاً تحریر ہے کہ یہ معاملہ حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز کی خدمت میں پیش ہوا۔ حضورانور ایدہ اللہ تعالیٰ بنصرہ العزیز نے ارشاد فرمایا ہے کہ “[Verbatim Instructions as provided]”۔ ارشاد حضورانور ارسال خدمت ہے۔ جزاکم اللہ خیراً
 
 EXTRACTED PDF TEXT:
 ${extractedTexts}
