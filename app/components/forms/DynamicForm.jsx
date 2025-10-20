@@ -13,7 +13,6 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
 
   const options = Object.keys(deptConfig.formTemplates);
 
-  // CHANGED: Auto-select if only one option available
   useEffect(() => {
     if (options.length === 1 && !selectedOption) {
       setSelectedOption(options[0]);
@@ -62,27 +61,23 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
 
   const handleCopy = async () => {
     try {
-      // Try modern Clipboard API first (works on localhost)
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(aiSummary);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       } else {
-        // Fallback for non-secure contexts (LAN access)
         fallbackCopy(aiSummary);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }
     } catch (err) {
       console.error("Failed to copy:", err);
-      // If modern API fails, try fallback
       fallbackCopy(aiSummary);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
 
-  // Fallback copy function for non-secure contexts
   const fallbackCopy = (text) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -102,7 +97,6 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
     document.body.removeChild(textArea);
   };
 
-  // Only show if there's extracted text
   if (extractedTexts.length === 0) return null;
 
   const selectedTemplate = selectedOption
@@ -110,17 +104,16 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
     : [];
 
   return (
-    <div className="mt-6 p-6 bg-white rounded-lg border border-gray-300">
+    <div className="mt-6 p-6 bg-white rounded-lg border border-gray-200 shadow-sm">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">
-        Form Selection
+        Form Configuration
       </h2>
 
-      {/* CHANGED: Only show dropdown if multiple options available */}
       {options.length > 1 && (
         <select
           value={selectedOption}
           onChange={handleOptionChange}
-          className="w-full p-2.5 text-sm border border-gray-300 rounded-md mb-5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 text-sm border border-gray-300 rounded-lg mb-5 bg-white focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
         >
           <option value="">Select an option...</option>
           {options.map((option) => (
@@ -131,15 +124,14 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
         </select>
       )}
 
-      {/* Dynamic Form Fields */}
       {selectedTemplate.length > 0 && (
-        <form onSubmit={handleSubmit}>
-          <h3 className="text-base font-semibold text-gray-900 mb-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
             {selectedOption} Form
           </h3>
           {selectedTemplate.map((field) => (
-            <div key={field.name} className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <div key={field.name}>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {field.label}
                 {field.required && <span className="text-red-500 ml-1">*</span>}
               </label>
@@ -152,7 +144,7 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
                   value={formData[field.name] || ""}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+                  className="w-full p-3 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent resize-y transition-all"
                 />
               ) : field.type === "select" ? (
                 <select
@@ -160,7 +152,7 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
                   required={field.required}
                   value={formData[field.name] || ""}
                   onChange={handleInputChange}
-                  className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
                 >
                   <option value="">{field.placeholder}</option>
                   {field.options.map((option) => (
@@ -177,7 +169,7 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
                   required={field.required}
                   value={formData[field.name] || ""}
                   onChange={handleInputChange}
-                  className="w-full p-2.5 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all"
                 />
               )}
             </div>
@@ -188,45 +180,86 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
             type="submit"
             disabled={isSubmitting}
             className={`
-              w-full px-6 py-3 border-none rounded-lg text-sm font-semibold mt-2
-              transition-colors duration-200
+              w-full px-6 py-3 rounded-lg text-sm font-semibold mt-4
+              transition-all duration-200
               ${
                 isSubmitting
                   ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+                  : "bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white shadow-md hover:shadow-lg cursor-pointer"
               }
             `}
           >
-            {isSubmitting ? "Submitting..." : "Submit Form"}
+            {isSubmitting ? (
+              <span className="flex items-center justify-center gap-2">
+                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                Processing...
+              </span>
+            ) : (
+              "Generate Response"
+            )}
           </button>
         </form>
       )}
 
       {/* Error Message */}
       {error && (
-        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
+        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
           {error}
         </div>
       )}
 
       {/* AI Answer Display */}
       {aiSummary && (
-        <div className="mt-4">
-          <div className="flex justify-between items-center mb-2">
-            <h4 className="text-sm font-semibold text-gray-900">
-              Draft Answer
+        <div className="mt-6">
+          <div className="flex justify-between items-center mb-3">
+            <h4 className="text-base font-semibold text-gray-900">
+              Generated Response
             </h4>
             <button
               onClick={handleCopy}
-              className="px-4 py-1.5 text-md text-white bg-gray-600 hover:bg-gray-700 rounded-md transition-colors duration-200"
+              className="px-4 py-2 text-sm text-white bg-slate-600 hover:bg-slate-700 rounded-lg transition-colors duration-200 flex items-center gap-2"
             >
-              {copied ? "Copied!" : "Copy"}
+              {copied ? (
+                <>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Copy
+                </>
+              )}
             </button>
           </div>
           <textarea
             readOnly
             value={aiSummary}
-            className="w-full min-h-[250px] p-3 text-sm bg-green-50 border border-green-200 rounded-md resize-y text-green-800 leading-relaxed"
+            className="w-full min-h-[250px] p-4 text-sm bg-green-50 border border-green-200 rounded-lg resize-y text-gray-800 leading-relaxed"
           />
         </div>
       )}
