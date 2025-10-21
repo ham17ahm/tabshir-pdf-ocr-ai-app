@@ -15,37 +15,16 @@ export function getAllFormTypes(registry) {
 }
 
 /**
- * Check if a form type exists in registry
- * @param {Object} registry - Form type registry object
- * @param {string} formType - Form type identifier
- * @returns {boolean}
- */
-export function isValidFormType(registry, formType) {
-  return formType in registry;
-}
-
-/**
- * Get complete configuration for a form type
- * @param {Object} registry - Form type registry object
- * @param {string} formType - Form type identifier
- * @returns {Object} Complete form configuration
- * @throws {Error} If form type doesn't exist
- */
-export function getFormConfig(registry, formType) {
-  if (!isValidFormType(registry, formType)) {
-    throw new Error(`Form type "${formType}" not found in registry`);
-  }
-  return registry[formType];
-}
-
-/**
  * Get form fields configuration
  * @param {Object} registry - Form type registry object
  * @param {string} formType - Form type identifier
  * @returns {Array} Array of field configurations
  */
 export function getFormFields(registry, formType) {
-  const config = getFormConfig(registry, formType);
+  if (!(formType in registry)) {
+    throw new Error(`Form type "${formType}" not found in registry`);
+  }
+  const config = registry[formType];
   return config.fields;
 }
 
@@ -56,28 +35,9 @@ export function getFormFields(registry, formType) {
  * @returns {Object} AI configuration object
  */
 export function getAIConfig(registry, formType) {
-  const config = getFormConfig(registry, formType);
+  if (!(formType in registry)) {
+    throw new Error(`Form type "${formType}" not found in registry`);
+  }
+  const config = registry[formType];
   return config.ai;
-}
-
-/**
- * Get prompt instruction template
- * @param {Object} registry - Form type registry object
- * @param {string} formType - Form type identifier
- * @returns {string} Prompt instruction text
- */
-export function getPromptInstruction(registry, formType) {
-  const config = getFormConfig(registry, formType);
-  return config.prompt.instruction;
-}
-
-/**
- * Get examples file name
- * @param {Object} registry - Form type registry object
- * @param {string} formType - Form type identifier
- * @returns {string} Examples file name
- */
-export function getExamplesFileName(registry, formType) {
-  const config = getFormConfig(registry, formType);
-  return config.examplesFile;
 }

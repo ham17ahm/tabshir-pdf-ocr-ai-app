@@ -105,7 +105,6 @@ PROCEDURE:
 3) Closing sentence — Conclude with:
      The instruction of Hazoor Anwar is sent for compliance. Jazakumullah Khairan`,
     },
-    examplesFile: "Category1.json",
   },
 
   "Category 2": {
@@ -176,70 +175,5 @@ PROCEDURE:
 **“[Insert the full, verbatim instruction(s) here without summarizing.]”**
 3) Closing sentence — Conclude with:
      ارشاد حضورانور ارسال خدمت ہے۔ جزاکم اللہ خیراً`,
-    examplesFile: "Category2.json",
-  },
-
-  "Category 3": {
-    displayName: "Category 3",
-    fields: [
-      {
-        name: "aiProvider",
-        label: "AI Provider",
-        type: "select",
-        options: ["OpenAI", "Gemini"],
-        placeholder: "Select AI provider",
-        required: true,
-      },
-      {
-        name: "language",
-        label: "Language",
-        type: "select",
-        options: ["English", "Urdu"],
-        placeholder: "Select language",
-        required: true,
-      },
-      {
-        name: "context",
-        label: "Context",
-        type: "textarea",
-        placeholder: "Enter context",
-        required: true,
-      },
-      {
-        name: "tabshirInstructions",
-        label: "Tabshir Instructions",
-        type: "text",
-        placeholder: "Enter Tabshir instructions",
-        required: true,
-      },
-    ],
-    ai: {
-      provider: "gemini", // Default provider
-      availableProviders: ["OpenAI", "Gemini"],
-      models: {
-        openai: "gpt-4o-mini",
-        gemini: "models/gemini-flash-lite-latest",
-      },
-      temperature: 0.7,
-      maxTokens: 500,
-    },
-    promptTemplate: (
-      formData,
-      extractedTexts,
-      examples
-    ) => `Below you will find examples and data to help you write a formal letter.
-
-CONTEXT: ${formData.context}
-OUTPUT LANGUAGE: ${formData.language}
-TABSHIR INSTRUCTIONS TO INCLUDE: ${formData.tabshirInstructions}
-
-EXAMPLES OF DESIRED OUTPUT:
-${examples}
-
-EXTRACTED PDF TEXT:
-${extractedTexts}
-
-Your task is to write a formal letter in response to the raw letter provided in the "Extracted PDF Text" section, in light of the examples following the information provided. The "context" is for you to comprehend how and what to write the letter. The "tabshir instructions" are the verbatim guidance that needs to be included in the final letter.`,
-    examplesFile: "PSTabshirInstructions.json",
   },
 };

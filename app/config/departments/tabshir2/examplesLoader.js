@@ -3,7 +3,6 @@
 // Import Tabshir2's examples
 import GeneralExamples from "./examples/General.json";
 import InstructionsExamples from "./examples/Instructions.json";
-import TabshirInstructionsExamples from "./examples/TabshirInstructions.json";
 
 /**
  * FLEXIBLE MAPPING: Example Category → Example File
