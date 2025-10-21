@@ -45,7 +45,7 @@ export const tabshir1Registry = {
         examples
       ) => `Below you will find a structure and example data to help you write a formal letter.
 
-INSTRUCTIONS: ${formData.context}
+VERBATIM INSTRUCTIONS: "${formData.context}"
 OUTPUT LANGUAGE: ${formData.language}
 
 EXAMPLES OF DESIRED OUTPUT:
@@ -78,7 +78,7 @@ PROCEDURE:
         examples
       ) => `Below you will find a structure and example data to help you write a formal letter.
 
-INSTRUCTIONS: ${formData.context}
+VERBATIM INSTRUCTIONS: "${formData.context}"
 OUTPUT LANGUAGE: ${formData.language}
 
 EXAMPLES OF DESIRED OUTPUT:
@@ -149,7 +149,7 @@ PROCEDURE:
       examples
     ) => `Below you will find a structure and example data to help you write a formal letter.
 
-INSTRUCTIONS: ${formData.instructions}
+VERBATIM INSTRUCTIONS: "${formData.instructions}"
 OUTPUT LANGUAGE: ${formData.language}
 
 EXAMPLES OF DESIRED OUTPUT:
