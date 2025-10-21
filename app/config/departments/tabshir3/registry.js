@@ -1,8 +1,8 @@
 // app/config/departments/tabshir3/registry.js
 
 export const tabshir3Registry = {
-  Category99: {
-    displayName: "Category99",
+  Category1: {
+    displayName: "Category1",
     fields: [
       {
         name: "aiProvider",
