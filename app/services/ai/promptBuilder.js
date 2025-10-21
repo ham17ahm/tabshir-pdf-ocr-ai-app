@@ -32,8 +32,8 @@ export class PromptBuilder {
       return this.buildWithRAG(formData, extractedTexts, ragExamples);
     }
 
-    // Check if this form uses the NEW template format
-    if (this.formConfig.promptTemplate) {
+    // CHANGED: Check for BOTH old and new template format
+    if (this.formConfig.promptTemplate || this.formConfig.promptTemplates) {
       return this.buildFromTemplate(formData, extractedTexts);
     }
 
@@ -103,8 +103,17 @@ Formal letter in ${formData.language}, ready for official use.
    * Build prompt using NEW template format (for non-RAG forms)
    */
   buildFromTemplate(formData, extractedTexts) {
-    const exampleKey = formData.exampleCategory || this.formType;
-    const examples = this.deptConfig.getExamples(exampleKey);
+    // Get the category (formType) and language from formData
+    const category = this.formType;
+    const language = formData.language;
+
+    // Fetch examples using BOTH category and language
+    const examples = this.deptConfig.getExamples(category, language);
+
+    // Check if examples were found
+    if (!examples || examples.length === 0) {
+      console.warn(`No examples found for ${category} + ${language}`);
+    }
 
     const formattedExtractedTexts = extractedTexts
       .map((text, index) => `Page ${index + 1}:\n${text}`)
@@ -114,7 +123,34 @@ Formal letter in ${formData.language}, ready for official use.
       .map((ex, index) => `Example ${index + 1}:\n${ex.example}`)
       .join("\n\n");
 
-    const prompt = this.formConfig.promptTemplate(
+    // CHANGED: Get the language-specific prompt template
+    const promptTemplates = this.formConfig.promptTemplates;
+
+    // Check if we have language-specific templates
+    let promptTemplate;
+    if (
+      promptTemplates &&
+      typeof promptTemplates === "object" &&
+      !Array.isArray(promptTemplates)
+    ) {
+      // New format: { Urdu: fn, English: fn }
+      promptTemplate = promptTemplates[language];
+
+      if (!promptTemplate) {
+        throw new Error(
+          `No prompt template found for ${category} in ${language} language. Please contact the administrator.`
+        );
+      }
+    } else {
+      // Old format: single promptTemplate function (backward compatibility)
+      promptTemplate = this.formConfig.promptTemplate;
+
+      if (!promptTemplate) {
+        throw new Error(`No prompt template found for ${category}`);
+      }
+    }
+
+    const prompt = promptTemplate(
       formData,
       formattedExtractedTexts,
       formattedExamples

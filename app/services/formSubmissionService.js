@@ -9,6 +9,20 @@ export const submitFormData = async (
   formType
 ) => {
   try {
+    // ADDED: Check if examples exist for this category + language combination
+    const category = formType;
+    const language = formData.language;
+
+    if (language) {
+      const examples = deptConfig.getExamples(category, language);
+
+      if (!examples || examples.length === 0) {
+        throw new Error(
+          `⚠️ Examples file missing for "${category}" in "${language}" language. Please contact the administrator.`
+        );
+      }
+    }
+
     const aiConfig = deptConfig.aiConfig[formType];
 
     if (!aiConfig) {

@@ -1,33 +1,34 @@
 // app/config/departments/tabshir1/examplesLoader.js
 
 import * as ExamplesFiles from "./examples";
-import {
-  getExamplesFileName,
-  isValidFormType,
-} from "@/app/config/formTypes/registryUtils";
-import { tabshir1Registry } from "./registry";
+import { getExampleFileName } from "./examplesMapping";
 
 /**
- * Get examples for a specific Tabshir1 form type
- * @param {string} formType - The form type identifier
+ * Get examples for a specific category + language combination
+ * @param {string} category - The category name (e.g., "Category 1")
+ * @param {string} language - The language (e.g., "Urdu" or "English")
  * @returns {Array} Array of example objects
  */
-export function getTabshir1Examples(formType) {
-  if (!isValidFormType(tabshir1Registry, formType)) {
-    throw new Error(`Invalid form type for Tabshir1: ${formType}`);
-  }
+export function getTabshir1Examples(category, language) {
+  // Get the filename from our mapping
+  const fileName = getExampleFileName(category, language);
 
-  const fileName = getExamplesFileName(tabshir1Registry, formType);
+  if (!fileName) {
+    console.error(`No example file configured for ${category} + ${language}`);
+    return [];
+  }
 
   // Remove .json extension to get the export name
   const exportName = fileName.replace(".json", "");
 
+  // Get the examples from the imported files
   const examples = ExamplesFiles[exportName];
 
   if (!examples) {
-    throw new Error(
-      `Example file not found: ${fileName}. Make sure it's exported in examples/index.js`
+    console.error(
+      `Example file "${fileName}" not found. Make sure it exists and is exported in examples/index.js`
     );
+    return [];
   }
 
   return examples.examples || [];
