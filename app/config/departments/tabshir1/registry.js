@@ -21,7 +21,7 @@ export const tabshir1Registry = {
         required: true,
       },
       {
-        name: "context",
+        name: "instructions",
         label: "Instructions by Huzoor Anwar (aa)",
         type: "textarea",
         placeholder: "Enter exact instruction either in Urdu or English",
@@ -45,7 +45,7 @@ export const tabshir1Registry = {
         examples
       ) => `Below you will find a structure and example data to help you write a formal letter.
 
-VERBATIM INSTRUCTIONS: "${formData.context}"
+VERBATIM INSTRUCTIONS: "${formData.instructions}"
 OUTPUT LANGUAGE: ${formData.language}
 
 EXAMPLES OF DESIRED OUTPUT:
@@ -78,7 +78,7 @@ PROCEDURE:
         examples
       ) => `Below you will find a structure and example data to help you write a formal letter.
 
-VERBATIM INSTRUCTIONS: "${formData.context}"
+VERBATIM INSTRUCTIONS: "${formData.instructions}"
 OUTPUT LANGUAGE: ${formData.language}
 
 EXAMPLES OF DESIRED OUTPUT:
