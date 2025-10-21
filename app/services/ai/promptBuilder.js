@@ -21,15 +21,24 @@ export class PromptBuilder {
 
   /**
    * Build the complete prompt
-   * @param {Object} data - Contains formData, extractedTexts, ragExamples
-   * @returns {string} Complete formatted prompt
+   * @param {Object} data - Contains formData, extractedTexts, ragExamples, googleSheetsData
+   * @returns {Promise<string>} Complete formatted prompt
    */
-  build(data) {
-    const { formData, extractedTexts, ragExamples } = data;
+  async build(data) {
+    const { formData, extractedTexts, ragExamples, googleSheetsData } = data;
 
     // Check if this form uses RAG
     if (this.formConfig.useRAG && ragExamples) {
       return this.buildWithRAG(formData, extractedTexts, ragExamples);
+    }
+
+    // Check if this form uses Google Sheets
+    if (this.formConfig.useGoogleSheets && googleSheetsData) {
+      return this.buildFromGoogleSheets(
+        formData,
+        extractedTexts,
+        googleSheetsData
+      );
     }
 
     // CHANGED: Check for BOTH old and new template format
@@ -96,6 +105,46 @@ Draft a formal response that addresses the input letter according to the specifi
 <output_format>
 Formal letter in ${formData.language}, ready for official use.
 </output_format>`;
+    return prompt.trim();
+  }
+
+  /**
+   * Build prompt using Google Sheets templates and examples
+   */
+  buildFromGoogleSheets(formData, extractedTexts, googleSheetsData) {
+    const { template, examples } = googleSheetsData;
+    const language = formData.language;
+
+    const formattedExtractedTexts = extractedTexts
+      .map((text, index) => `Page ${index + 1}:\n${text}`)
+      .join("\n\n");
+
+    const formattedExamples = examples
+      .map((ex, index) => `Example ${index + 1}:\n${ex.example}`)
+      .join("\n\n");
+
+    // Build the prompt using the structured format from Google Sheets
+    const prompt = `Below you will find a structure and example data to help you write a formal letter.
+
+VERBATIM INSTRUCTIONS: "${formData.instructions}"
+OUTPUT LANGUAGE: ${language}
+
+EXAMPLES OF DESIRED OUTPUT:
+${formattedExamples}
+
+STRUCTURED FORMAT:
+${template}
+
+EXTRACTED PDF TEXT:
+${formattedExtractedTexts}
+
+Your task is to write a formal letter in response to the raw letter provided in the "Extracted PDF Text" section, in light of the examples and the structured format above.
+
+IMPORTANT STYLE/GUIDANCE
+- Follow the structured format exactly as provided
+- Reproduce the instructions in full (do not summarize)
+- Keep the response formal and professional`;
+
     return prompt.trim();
   }
 
@@ -194,9 +243,9 @@ Formal letter in ${formData.language}, ready for official use.
  * @param {Object} deptConfig - Department configuration
  * @param {string} formType - The form type identifier
  * @param {Object} data - Contains formData, extractedTexts, ragExamples
- * @returns {string} Complete formatted prompt
+ * @returns {Promise<string>} Complete formatted prompt
  */
-export function buildPrompt(deptConfig, formType, data) {
+export async function buildPrompt(deptConfig, formType, data) {
   const builder = new PromptBuilder(deptConfig, formType);
-  return builder.build(data);
+  return await builder.build(data);
 }

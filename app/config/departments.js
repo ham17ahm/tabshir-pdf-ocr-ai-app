@@ -13,4 +13,11 @@ export const departments = [
     icon: "📢",
     color: "emerald",
   },
+  {
+    name: "Tabshir 3",
+    href: "/tabshir3",
+    description: "Tabshir 3 Correspondence System (Google Sheets)",
+    icon: "📊",
+    color: "purple",
+  },
 ];

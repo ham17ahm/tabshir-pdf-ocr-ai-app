@@ -3,6 +3,9 @@
 # Google Cloud credentials
 google-cloud-vision-api/
 
+# Google Sheets credentials
+google-sheets-reader-key/
+
 # CSV raw data file
 correspondence-data.csv
 

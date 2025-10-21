@@ -5,6 +5,7 @@ import OpenAI from "openai";
 import { buildPrompt } from "@/app/services/ai/promptBuilder";
 import { tabshir1Config } from "@/app/config/departments/tabshir1";
 import { tabshir2Config } from "@/app/config/departments/tabshir2";
+import { tabshir3Config } from "@/app/config/departments/tabshir3";
 import {
   searchSimilarExamples,
   buildSearchQuery,
@@ -18,6 +19,7 @@ const openai = new OpenAI({
 const departmentConfigs = {
   tabshir1: tabshir1Config,
   tabshir2: tabshir2Config,
+  tabshir3: tabshir3Config,
 };
 
 export async function POST(request) {
@@ -35,11 +37,45 @@ export async function POST(request) {
     // Check if this form type uses RAG
     const formConfig = deptConfig.registry[formType];
     const useRAG = formConfig?.useRAG || false;
+    const usesGoogleSheets = deptConfig.usesGoogleSheets || false;
 
     let ragExamples = null;
+    let googleSheetsData = null;
 
+    // If Google Sheets is enabled, fetch data from sheets
+    if (usesGoogleSheets) {
+      console.log("\n📊 GOOGLE SHEETS ENABLED - Fetching data...");
+
+      const category = formType;
+      const language = formData.language;
+
+      // Dynamic import of Google Sheets service (server-side only)
+      const { getTemplate, getExamples } = await import(
+        "@/app/services/googleSheetsService"
+      );
+
+      const [template, examples] = await Promise.all([
+        getTemplate(category, language),
+        getExamples(category, language),
+      ]);
+
+      if (!template) {
+        throw new Error(
+          `No template found in Google Sheets for ${category} in ${language}`
+        );
+      }
+
+      googleSheetsData = {
+        template,
+        examples,
+      };
+
+      console.log(
+        `Found template and ${examples.length} examples from Google Sheets`
+      );
+    }
     // If RAG is enabled, search for similar examples
-    if (useRAG) {
+    else if (useRAG) {
       console.log("\n🔍 RAG ENABLED - Searching for similar examples...");
 
       // Build search query from user inputs
@@ -64,11 +100,12 @@ export async function POST(request) {
       );
     }
 
-    // BUILD THE PROMPT (passing RAG examples if available)
-    const userMessage = buildPrompt(deptConfig, formType, {
+    // BUILD THE PROMPT (passing RAG examples or Google Sheets data)
+    const userMessage = await buildPrompt(deptConfig, formType, {
       formData,
       extractedTexts,
-      ragExamples, // NEW: Pass RAG examples
+      ragExamples,
+      googleSheetsData, // NEW: Pass Google Sheets data
     });
 
     // 🔍 LOG: See the built prompt

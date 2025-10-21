@@ -13,7 +13,12 @@ export const submitFormData = async (
     const category = formType;
     const language = formData.language;
 
-    if (language) {
+    // CHANGED: Only validate examples for non-Google Sheets departments
+    const formConfig = deptConfig.registry[formType];
+    const useGoogleSheets = formConfig?.useGoogleSheets || false;
+
+    if (language && !useGoogleSheets) {
+      // Only check examples for file-based systems (Tabshir1, Tabshir2)
       const examples = deptConfig.getExamples(category, language);
 
       if (!examples || examples.length === 0) {
