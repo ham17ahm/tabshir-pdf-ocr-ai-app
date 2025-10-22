@@ -114,7 +114,21 @@ Formal letter in ${formData.language}, ready for official use.
   buildFromGoogleSheets(formData, extractedTexts, googleSheetsData) {
     const { template, examples } = googleSheetsData;
     const language = formData.language;
+    const category = this.formType;
 
+    // Get the prompt builder function for this category + language
+    const promptBuilder = this.deptConfig.getPromptBuilder?.(
+      category,
+      language
+    );
+
+    if (!promptBuilder) {
+      throw new Error(
+        `No prompt template found for ${category} in ${language} language. Please contact the administrator.`
+      );
+    }
+
+    // Format the data
     const formattedExtractedTexts = extractedTexts
       .map((text, index) => `Page ${index + 1}:\n${text}`)
       .join("\n\n");
@@ -123,27 +137,14 @@ Formal letter in ${formData.language}, ready for official use.
       .map((ex, index) => `Example ${index + 1}:\n${ex.example}`)
       .join("\n\n");
 
-    // Build the prompt using the structured format from Google Sheets
-    const prompt = `Below you will find a structure and example data to help you write a formal letter.
-
-VERBATIM INSTRUCTIONS: "${formData.instructions}"
-OUTPUT LANGUAGE: ${language}
-
-EXAMPLES OF DESIRED OUTPUT:
-${formattedExamples}
-
-STRUCTURED FORMAT:
-${template}
-
-EXTRACTED PDF TEXT:
-${formattedExtractedTexts}
-
-Your task is to write a formal letter in response to the raw letter provided in the "Extracted PDF Text" section, in light of the examples and the structured format above.
-
-IMPORTANT STYLE/GUIDANCE
-- Follow the structured format exactly as provided
-- Reproduce the instructions in full (do not summarize)
-- Keep the response formal and professional`;
+    // Call the prompt builder with all the data
+    const prompt = promptBuilder({
+      language,
+      formattedExamples,
+      template,
+      formattedExtractedTexts,
+      formData,
+    });
 
     return prompt.trim();
   }

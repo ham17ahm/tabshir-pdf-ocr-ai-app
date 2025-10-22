@@ -11,7 +11,11 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const options = Object.keys(deptConfig.formTemplates);
+  // Get categories with their display names
+  const options = Object.keys(deptConfig.formTemplates).map((key) => ({
+    key: key, // The actual category key (Category1, Category2)
+    displayName: deptConfig.registry[key]?.displayName || key, // User-friendly name
+  }));
 
   useEffect(() => {
     if (options.length === 1 && !selectedOption) {
@@ -117,8 +121,8 @@ export default function DynamicForm({ deptConfig, extractedTexts }) {
         >
           <option value="">Select an option...</option>
           {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
+            <option key={option.key} value={option.key}>
+              {option.displayName}
             </option>
           ))}
         </select>
