@@ -20,4 +20,11 @@ export const departments = [
     icon: "🫴",
     color: "purple",
   },
+  {
+    name: "PS 1",
+    href: "/ps1",
+    description: "Google Sheets",
+    icon: "✅",
+    color: "orange",
+  },
 ];

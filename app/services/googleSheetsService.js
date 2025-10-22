@@ -27,11 +27,11 @@ function getSheets() {
 /**
  * Fetch data from a specific sheet
  * @param {string} sheetName - Name of the sheet (e.g., "Templates" or "Examples")
+ * @param {string} spreadsheetId - The Google Sheets spreadsheet ID
  * @returns {Promise<Array>} Array of row objects
  */
-async function fetchSheetData(sheetName) {
+async function fetchSheetData(sheetName, spreadsheetId) {
   const sheets = getSheets();
-  const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
 
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId,
@@ -66,8 +66,8 @@ async function fetchSheetData(sheetName) {
 /**
  * Get templates for a specific category and language
  */
-export async function getTemplate(category, language) {
-  const templates = await fetchSheetData("Templates");
+export async function getTemplate(category, language, spreadsheetId) {
+  const templates = await fetchSheetData("Templates", spreadsheetId);
 
   const template = templates.find(
     (t) => t.Category === category && t.Language === language
@@ -79,8 +79,8 @@ export async function getTemplate(category, language) {
 /**
  * Get examples for a specific category and language
  */
-export async function getExamples(category, language) {
-  const examples = await fetchSheetData("Examples");
+export async function getExamples(category, language, spreadsheetId) {
+  const examples = await fetchSheetData("Examples", spreadsheetId);
 
   const filtered = examples.filter(
     (ex) => ex.Category === category && ex.Language === language
@@ -92,8 +92,8 @@ export async function getExamples(category, language) {
 /**
  * Get all unique categories from Templates sheet
  */
-export async function getAllCategories() {
-  const templates = await fetchSheetData("Templates");
+export async function getAllCategories(spreadsheetId) {
+  const templates = await fetchSheetData("Templates", spreadsheetId);
 
   const categories = [...new Set(templates.map((t) => t.Category))];
   return categories.filter(Boolean); // Remove empty strings

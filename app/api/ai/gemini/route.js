@@ -4,6 +4,8 @@ import { buildPrompt } from "@/app/services/ai/promptBuilder";
 import { tabshir1Config } from "@/app/config/departments/tabshir1";
 import { tabshir2Config } from "@/app/config/departments/tabshir2";
 import { tabshir3Config } from "@/app/config/departments/tabshir3";
+import { ps1Config } from "@/app/config/departments/ps1";
+
 import {
   searchSimilarExamples,
   buildSearchQuery,
@@ -16,6 +18,7 @@ const departmentConfigs = {
   tabshir1: tabshir1Config,
   tabshir2: tabshir2Config,
   tabshir3: tabshir3Config,
+  ps1: ps1Config,
 };
 
 export async function POST(request) {
@@ -50,9 +53,11 @@ export async function POST(request) {
         "@/app/services/googleSheetsService"
       );
 
+      const spreadsheetId = deptConfig.googleSheetsId;
+
       const [template, examples] = await Promise.all([
-        getTemplate(category, language),
-        getExamples(category, language),
+        getTemplate(category, language, spreadsheetId),
+        getExamples(category, language, spreadsheetId),
       ]);
 
       if (!template) {

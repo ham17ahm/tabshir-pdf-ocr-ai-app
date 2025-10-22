@@ -23,4 +23,7 @@ export const tabshir3Config = {
   // Flag indicating this department uses Google Sheets
   // The API routes will handle fetching data differently
   usesGoogleSheets: true,
+
+  // Google Sheets Spreadsheet ID for this department
+  googleSheetsId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
 };
