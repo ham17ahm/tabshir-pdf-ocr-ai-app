@@ -10,7 +10,7 @@ import { buildPrompt as Category1_English } from "./Category1_English.js";
 
 // Future prompts - uncomment as you create them
 import { buildPrompt as Category2_Urdu } from "./Category2_Urdu.js";
-// import { buildPrompt as Category2_English } from "./Category2_English.js";
+import { buildPrompt as Category3_English } from "./Category3_English.js";
 
 /**
  * Prompt mapping registry
@@ -24,7 +24,7 @@ export const PROMPTS_MAPPING = {
   Category2_Urdu: Category2_Urdu,
   // "Category2_English": Category2_English,
   // "Category3_Urdu": Category2_Urdu,  // Reusing Category2's Urdu prompt
-  // "Category3_English": Category2_English,  // Reusing Category2's English prompt
+  Category3_English: Category3_English, // Reusing Category2's English prompt
 };
 
 /**
