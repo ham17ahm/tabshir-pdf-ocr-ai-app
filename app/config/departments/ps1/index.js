@@ -5,7 +5,6 @@ import {
   buildFormTemplates,
   buildAIConfig,
 } from "@/app/config/builders/configBuilder";
-import { getPromptBuilder } from "./prompts/index.js";
 
 /**
  * Complete PS 1 Department Configuration
@@ -26,9 +25,4 @@ export const ps1Config = {
 
   // Google Sheets Spreadsheet ID for PS 1
   googleSheetsId: "1GR2qxIIJm8wH5VulFTY1_zlNKKAfVv7LgCA6-cdtKeo",
-
-  // NEW: Method to get prompt builder for a category + language
-  getPromptBuilder: (category, language) => {
-    return getPromptBuilder(category, language);
-  },
 };

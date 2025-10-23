@@ -3,6 +3,7 @@
 export const ps1Registry = {
   Category1: {
     displayName: "Category1",
+    promptStrategy: "auto-discover",
     fields: [
       {
         name: "aiProvider",
@@ -41,6 +42,7 @@ export const ps1Registry = {
   },
   Category2: {
     displayName: "Janazah Report",
+    promptStrategy: "auto-discover",
     fields: [
       {
         name: "aiProvider",
@@ -79,6 +81,7 @@ export const ps1Registry = {
   },
   Category3: {
     displayName: "Acknowledgement of Report",
+    promptStrategy: "auto-discover",
     fields: [
       {
         name: "aiProvider",

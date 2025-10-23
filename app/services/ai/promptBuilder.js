@@ -1,6 +1,7 @@
 // app/services/ai/promptBuilder.js
 
 import { formatExamplesForPrompt } from "@/app/services/rag/ragService";
+import { discoverPromptBuilder } from "./promptDiscovery";
 
 /**
  * Prompt builder service
@@ -34,7 +35,7 @@ export class PromptBuilder {
 
     // Check if this form uses Google Sheets
     if (this.formConfig.useGoogleSheets && googleSheetsData) {
-      return this.buildFromGoogleSheets(
+      return await this.buildFromGoogleSheets(
         formData,
         extractedTexts,
         googleSheetsData
@@ -111,20 +112,27 @@ Formal letter in ${formData.language}, ready for official use.
   /**
    * Build prompt using Google Sheets templates and examples
    */
-  buildFromGoogleSheets(formData, extractedTexts, googleSheetsData) {
+  async buildFromGoogleSheets(formData, extractedTexts, googleSheetsData) {
     const { template, examples } = googleSheetsData;
     const language = formData.language;
     const category = this.formType;
 
-    // Get the prompt builder function for this category + language
-    const promptBuilder = this.deptConfig.getPromptBuilder?.(
+    // Auto-discover the prompt builder function
+    const promptBuilder = await discoverPromptBuilder(
+      this.deptConfig,
       category,
       language
     );
 
     if (!promptBuilder) {
       throw new Error(
-        `No prompt template found for ${category} in ${language} language. Please contact the administrator.`
+        `❌ Prompt file not found for "${category}" in "${language}" language.
+        
+Expected file location (one of):
+  • app/config/departments/${this.deptConfig.departmentId}/prompts/${category}_${language}.js
+  • app/config/departments/${this.deptConfig.departmentId}/prompts/${category}.js
+        
+Please create the prompt file or contact the administrator.`
       );
     }
 
