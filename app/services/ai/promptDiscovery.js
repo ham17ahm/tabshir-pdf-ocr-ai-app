@@ -1,53 +1,53 @@
 // app/services/ai/promptDiscovery.js
 
 /**
- * Dynamically discover and load prompt builder functions
- * Supports both language-specific and language-agnostic prompts
+ * Discover and load prompt builder functions using department indexes
  */
 
-/**
- * Discover and import a prompt builder function
- * @param {Object} deptConfig - Department configuration
- * @param {string} category - Category name (e.g., "Category1")
- * @param {string} language - Language (e.g., "Urdu" or "English")
- * @returns {Promise<Function|null>} - The buildPrompt function or null
- */
 export async function discoverPromptBuilder(deptConfig, category, language) {
-  const departmentId = deptConfig.departmentId; // e.g., "ps1"
+  const departmentId = deptConfig.departmentId;
 
   // Check if category uses auto-discovery
   const categoryConfig = deptConfig.registry[category];
   const strategy = categoryConfig?.promptStrategy || "auto-discover";
 
-  // If manual strategy, fall back to the old method
+  // If manual strategy, use old method
   if (strategy === "manual") {
     return deptConfig.getPromptBuilder?.(category, language);
   }
 
-  // AUTO-DISCOVERY LOGIC
-
-  // Step 1: Try language-specific prompt (e.g., Category1_Urdu.js)
+  // AUTO-DISCOVERY: Import the department's prompt index
   try {
-    const specificModule = await import(
-      `@/app/config/departments/${departmentId}/prompts/${category}_${language}.js`
-    );
-    console.log(`✅ Found prompt: ${category}_${language}.js`);
-    return specificModule.buildPrompt;
+    let promptIndex;
+
+    // Import the appropriate department's prompt index
+    if (departmentId === "ps1") {
+      promptIndex = await import(
+        "@/app/config/departments/ps1/prompts/index.js"
+      );
+    } else if (departmentId === "tabshir3") {
+      promptIndex = await import(
+        "@/app/config/departments/tabshir3/prompts/index.js"
+      );
+    }
+    // Add other departments here as needed
+
+    if (!promptIndex) {
+      throw new Error(`No prompt index found for department: ${departmentId}`);
+    }
+
+    // Use the index's getPromptBuilder function
+    const promptBuilder = promptIndex.getPromptBuilder(category, language);
+
+    if (promptBuilder) {
+      console.log(
+        `✅ Found prompt: ${category}_${language} (or generic ${category})`
+      );
+      return promptBuilder;
+    }
   } catch (error) {
-    // File not found, continue to next attempt
+    console.error("Error loading prompt:", error.message);
   }
 
-  // Step 2: Try language-agnostic prompt (e.g., Category1.js)
-  try {
-    const genericModule = await import(
-      `@/app/config/departments/${departmentId}/prompts/${category}.js`
-    );
-    console.log(`✅ Found prompt: ${category}.js (language-agnostic)`);
-    return genericModule.buildPrompt;
-  } catch (error) {
-    // File not found
-  }
-
-  // Step 3: Not found - return null (error will be thrown by caller)
   return null;
 }

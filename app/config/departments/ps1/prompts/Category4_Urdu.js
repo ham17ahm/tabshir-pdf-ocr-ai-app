@@ -1,7 +1,7 @@
-// app/config/departments/ps1/prompts/Category1_Urdu.js
+// app/config/departments/ps1/prompts/Category4_Urdu.js
 
 /**
- * Prompt template for Category1 - Urdu language
+ * Prompt template for Category4 - Urdu language
  * @param {Object} data - Contains all the data needed for the prompt
  * @returns {string} - The complete formatted prompt
  */
