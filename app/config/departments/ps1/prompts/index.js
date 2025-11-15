@@ -10,6 +10,7 @@ import * as Category1_Urdu from "./Category1_Urdu.js";
 import * as Category1_English from "./Category1_English.js";
 import * as Category2_Urdu from "./Category2_Urdu.js";
 import * as Category3_English from "./Category3_English.js";
+import * as Category3_Urdu from "./Category3_Urdu.js";
 import * as Category4_Urdu from "./Category4_Urdu.js";
 
 /**
@@ -21,6 +22,7 @@ export const promptBuilders = {
   Category1_English: Category1_English.buildPrompt,
   Category2_Urdu: Category2_Urdu.buildPrompt,
   Category3_English: Category3_English.buildPrompt,
+  Category3_Urdu: Category3_Urdu.buildPrompt,
   Category4_Urdu: Category4_Urdu.buildPrompt,
 };
 
